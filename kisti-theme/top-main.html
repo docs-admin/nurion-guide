@@ -40,8 +40,9 @@
       // Material 테마의 헤더 컨테이너 찾기
       var headerInner = document.querySelector(".md-header__inner");
       var searchElement = document.querySelector(".md-search");
-      
+      console.log("KKKKKK0000");
       if (headerInner && searchElement && !document.querySelector(".custom-header-links")) {
+        console.log("KKKKKK");
         var navContainer = document.createElement("div");
         navContainer.className = "custom-header-links";
         navContainer.innerHTML = `
