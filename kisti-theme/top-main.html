@@ -1,58 +1,57 @@
 {% extends "base.html" %}
 
-{% block libs %}
-{{ super() }}
-<script async src="https://siteimproveanalytics.com/js/siteanalyze_8343.js"></script>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-JCP9RYSNKF"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-JCP9RYSNKF');
-</script>
+{% block extrahead %}
+  {{ super() }}
+  <style>
+    /* 헤더 링크 스타일 정의 */
+    .custom-header-links {
+      display: flex;
+      gap: 1.2rem;
+      margin: 0 1rem;
+      align-items: center;
+      flex-grow: 1; /* 검색창 밀어내기 조절 */
+    }
+    .custom-nav-link {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--md-header-fg-color);
+      text-decoration: none;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+    }
+    .custom-nav-link:hover {
+      opacity: 1;
+      text-decoration: underline;
+      color: var(--md-header-fg-color);
+    }
+    /* 모바일 환경(태블릿 미만)에서는 공간 부족으로 숨김 */
+    @media screen and (max-width: 60em) {
+      .custom-header-links { display: none; }
+    }
+  </style>
 {% endblock %}
 
-{% block footer %}
-<footer class="md-footer">
-  <div class="md-footer-meta md-typeset">
-    <div class="md-footer-meta__inner md-grid">
-  
-      <div>
-	<a href="https://www.lbl.gov/" title="LBL" target="_blank">
-	  <img alt="LBL Home" src="/assets/images/lbl_logo.png"
-	       height="70" width="90" style="padding: 10px; height: 70px; width: 90px ">
-	</a>
-	<a href="https://science.energy.gov" title="DOE Office of Science" target="_blank">
-	  <img alt="DOE Office of Science Home" src="/assets/images/doe_logo.png"
-	       height="70" width="71" style="padding: 10px; height: 70px; width: 71px ">
-	</a>
-      </div>
-      
-      <div class="md-footer-copyright">
-	<a href="{{ base_url }}/accounts/policy/#acknowledge-use-of-nersc-resources"
-	   title="Acknowledge NERSC">Acknowledge NERSC</a><br>
-	<a href="https://www.lbl.gov/disclaimers/" target="_blank"
-	   title="Privacy and Security Notice">Privacy and Security Notice</a><br>
-	<a href="https://www.nersc.gov/users#e74" target="_blank"
-	   title="Contact Us">Contact Us</a><br>
-      </div>
-
-      {% include "partials/social.html" %}
-      
-    </div>
-  </div>
-<footer>
-{% endblock %}
-
-{% block config %}
+{% block header %}
   {{ super() }}
   <script>
-    var __search = {
-      transform: function(query) {
-        return query
+    // DOM이 로드된 후 실행
+    document.addEventListener("DOMContentLoaded", function() {
+      // Material 테마의 헤더 컨테이너 찾기
+      var headerInner = document.querySelector(".md-header__inner");
+      var searchElement = document.querySelector(".md-search");
+      
+      if (headerInner && searchElement && !document.querySelector(".custom-header-links")) {
+        var navContainer = document.createElement("div");
+        navContainer.className = "custom-header-links";
+        navContainer.innerHTML = `
+          <a href="https://site-a.com" class="custom-nav-link">SiteA</a>
+          <a href="https://site-b.com" class="custom-nav-link">SiteB</a>
+        `;
+        
+        // 로고(첫번째 자식)와 검색창 사이에 삽입
+        headerInner.insertBefore(navContainer, searchElement);
       }
-    }
+    });
   </script>
 {% endblock %}
