@@ -34,24 +34,5 @@
 
 {% block header %}
   {{ super() }}
-  <script>
-    // DOM이 로드된 후 실행
-    document.addEventListener("DOMContentLoaded", function() {
-      // Material 테마의 헤더 컨테이너 찾기
-      var headerInner = document.querySelector(".md-header__inner");
-      var searchElement = document.querySelector(".md-header__search");
-      
-      if (headerInner && searchElement && !document.querySelector(".custom-header-links")) {
-        var navContainer = document.createElement("div");
-        navContainer.className = "custom-header-links";
-        navContainer.innerHTML = `
-          <a href="https://site-a.com" class="custom-nav-link">SiteA</a>
-          <a href="https://site-b.com" class="custom-nav-link">SiteB</a>
-        `;
-        
-        // 로고(첫번째 자식)와 검색창 사이에 삽입
-        headerInner.insertBefore(navContainer, searchElement);
-      }
-    });
-  </script>
+   <br><br><h1>asfasdfasd</h1>     
 {% endblock %}
