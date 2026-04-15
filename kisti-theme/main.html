@@ -1,10 +1,31 @@
 {% extends "base.html" %}
 
 {% block header %}
-  {{ super() }} <div class="custom-header-nav">
+  {{ super() }} 
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var headerInner = document.querySelector(".md-header__title");
+      var searchElement = document.querySelector(".md-search");
+      
+      if (headerInner && searchElement) {
+        var navContainer = document.createElement("div");
+        navContainer.className = "custom-header-nav";
+        navContainer.innerHTML = `
+          <a href="https://site-a.com" class="custom-nav-link">SiteA</a>
+          <a href="https://site-b.com" class="custom-nav-link">SiteB</a>
+        `;
+        // 로고와 검색창 사이에 삽입
+        headerInner.insertBefore(navContainer, searchElement);
+      }
+    });
+  </script>
+
+<!-- 
+  <div class="custom-header-nav">
     <a href="https://site-a.com" class="custom-nav-link">SiteA</a>
     <a href="https://site-b.com" class="custom-nav-link">SiteB</a>
-  </div>
+  </div> -->
 
   <style>
     .custom-header-nav {
