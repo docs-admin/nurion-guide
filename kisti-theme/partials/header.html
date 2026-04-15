@@ -1,28 +1,52 @@
-{% extends "partials/header.html" %}
+{# 1. 원본 헤더를 가져옵니다. 경로를 명확히 하여 루프를 방지합니다. #}
+{% extends "base.html" %}
 
-{% block header_search %}
-  <nav class="md-header__button md-logo" style="width: auto; margin-right: 1rem;">
-    <style>
-      .custom-nav-link {
-        margin-right: 15px;
-        font-size: 0.8rem;
-        font-weight: 700;
-        color: var(--md-header-fg-color);
-        text-decoration: none;
-        opacity: 0.8;
-        transition: opacity 0.2s;
-      }
-      .custom-nav-link:hover {
-        opacity: 1;
-        text-decoration: underline;
-      }
-      /* 모바일에서는 숨기기 */
-      @media screen and (max-width: 45em) {
-        .custom-nav-link { display: none; }
-      }
-    </style>
-    <a href="https://site-a.com" class="custom-nav-link">SiteA</a>
-    <a href="https://site-b.com" class="custom-nav-link">SiteB</a>
-  </nav>
+{# 2. 헤더 내부의 로고/검색창 사이 영역을 찾아 메뉴를 삽입합니다. #}
+{% block header %}
   {{ super() }}
+  
+  <style>
+    .custom-header-links {
+      display: flex;
+      gap: 20px;
+      margin-left: 1rem;
+      align-items: center;
+    }
+    .custom-nav-link {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--md-header-fg-color);
+      text-decoration: none;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+    }
+    .custom-nav-link:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    /* 모바일 환경에서는 메뉴 숨기기 */
+    @media screen and (max-width: 45em) {
+      .custom-header-links { display: none; }
+    }
+  </style>
+
+  {# JavaScript를 사용하여 로고 옆에 동적으로 삽입 (가장 안전한 방법) #}
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var headerInner = document.querySelector(".md-header__inner");
+      var searchElement = document.querySelector(".md-header__search");
+      
+      if (headerInner && searchElement) {
+        var navContainer = document.createElement("div");
+        navContainer.className = "custom-header-links";
+        navContainer.innerHTML = `
+          <a href="https://site-a.com" class="custom-nav-link">SiteA</a>
+          <a href="https://site-b.com" class="custom-nav-link">SiteB</a>
+        `;
+        // 로고와 검색창 사이에 삽입
+        headerInner.insertBefore(navContainer, searchElement);
+      }
+    });
+  </script>
 {% endblock %}
