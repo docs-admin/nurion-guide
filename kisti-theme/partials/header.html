@@ -1,0 +1,28 @@
+{% extends "partials/header.html" %}
+
+{% block header_search %}
+  <nav class="md-header__button md-logo" style="width: auto; margin-right: 1rem;">
+    <style>
+      .custom-nav-link {
+        margin-right: 15px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--md-header-fg-color);
+        text-decoration: none;
+        opacity: 0.8;
+        transition: opacity 0.2s;
+      }
+      .custom-nav-link:hover {
+        opacity: 1;
+        text-decoration: underline;
+      }
+      /* 모바일에서는 숨기기 */
+      @media screen and (max-width: 45em) {
+        .custom-nav-link { display: none; }
+      }
+    </style>
+    <a href="https://site-a.com" class="custom-nav-link">SiteA</a>
+    <a href="https://site-b.com" class="custom-nav-link">SiteB</a>
+  </nav>
+  {{ super() }}
+{% endblock %}
