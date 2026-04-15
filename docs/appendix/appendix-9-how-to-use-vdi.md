@@ -20,7 +20,7 @@
 * Salome-Meca v2023
 * VAPOR v3.10.1
 
-<figure><img src="../.gitbook/assets/VDI-overview.png" alt=""><figcaption><p>VDI 서비스 구성도</p></figcaption></figure>
+<figure><img src="../../assets/VDI-overview.png" alt=""><figcaption><p>VDI 서비스 구성도</p></figcaption></figure>
 
 ## 나. VDI 사용 방법
 
@@ -30,7 +30,7 @@
 * 슈퍼컴퓨터 사용자 인증을 위해 ID, 패스워드, OTP 번호를 입력하고 Nurion 시스템을 선택하여 로그인 합니다.
 * 사용자 인증이 성공하면 MyKSC 대시보드에 접속됩니다.
 
-<figure><img src="../.gitbook/assets/image (5).png" alt=""><figcaption><p>MyKSC 로그인 페이지</p></figcaption></figure>
+<figure><img src="../../assets/image (5).png" alt=""><figcaption><p>MyKSC 로그인 페이지</p></figcaption></figure>
 
 
 
@@ -38,7 +38,7 @@
 
 * MyKSC 대시보드에서   APP 추가(+) 버튼을  클릭하고VDI(윈도우즈클10) 를 선택하면 별도 창에서 VMware Horizon 페이지가 구동됩니다.
 
-<figure><img src="../.gitbook/assets/VDI-run.png" alt=""><figcaption><p>대시보드에서  VDI 서비스 시작</p></figcaption></figure>
+<figure><img src="../../assets/VDI-run.png" alt=""><figcaption><p>대시보드에서  VDI 서비스 시작</p></figcaption></figure>
 
 * VDI 서비스는  ‘Horizon Client 프로그램' 또는  ‘웹 브라우저’ 를 통해 사용할 수 있습니다.
 
@@ -46,17 +46,17 @@
 
 * 처음 사용자는 ‘VMware Horizon Client를 다운로드하려면 [**여기**](https://customerconnect.omnissa.com/downloads/info/slug/desktop_end_user_computing/vmware_horizon_clients/horizon_8)를 클릭’을 선택하여 프로그램을 설치 후 ‘기본 클라이언트 시작’ 을 클릭합니다.
 
-<figure><img src="../.gitbook/assets/image (8).png" alt=""><figcaption><p>Horizon Client 프로그램을 통한 VDI 서버 접속</p></figcaption></figure>
+<figure><img src="../../assets/image (8).png" alt=""><figcaption><p>Horizon Client 프로그램을 통한 VDI 서버 접속</p></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/image (7).png" alt=""><figcaption><p>Horizon Client 프로그램 다운로드</p></figcaption></figure>
+<figure><img src="../../assets/image (7).png" alt=""><figcaption><p>Horizon Client 프로그램 다운로드</p></figcaption></figure>
 
 * &#x20;Horizon Client를 실행하고 나서 설정 > 보안 > 인증서 검사 모드를 '서버 ID 인증서를 확인하지 않음' 으로 설정합니다.
 
-<figure><img src="../.gitbook/assets/image (10).png" alt=""><figcaption><p>Horizon Client 프로그램에 보안 설정 확인</p></figcaption></figure>
+<figure><img src="../../assets/image (10).png" alt=""><figcaption><p>Horizon Client 프로그램에 보안 설정 확인</p></figcaption></figure>
 
 * Horizon Client의 ‘서버 추가'를 클릭하여 '연결 서버의 이름'으로 'https://uag-vdi.ksc.re.kr’ 을  입력 후 연결합니다.
 
-<figure><img src="../.gitbook/assets/image (9).png" alt=""><figcaption><p>Horizon Client 프로그램에서 VDI 서버 추가</p></figcaption></figure>
+<figure><img src="../../assets/image (9).png" alt=""><figcaption><p>Horizon Client 프로그램에서 VDI 서버 추가</p></figcaption></figure>
 
 ### 3. 사용자 데스크톱 연결 로그인
 
@@ -66,15 +66,15 @@ Horizon  Client 프로그램에서 Normal Node 데스크톱 풀을 선택하여 
 
 &#x20;     \* VM 수는 조정될 수 있습니다.
 
-<figure><img src="../.gitbook/assets/image (11).png" alt=""><figcaption><p>Horizon Client 프로그램을 통한 VDI 서버 접속화면</p></figcaption></figure>
+<figure><img src="../../assets/image (11).png" alt=""><figcaption><p>Horizon Client 프로그램을 통한 VDI 서버 접속화면</p></figcaption></figure>
 
 
 
 * 데스크톱(VM)이 할당되면 윈도우즈 10 OS에 연결 로그인 되며  약 30초 이내 소요됩니다.
 
-<figure><img src="../.gitbook/assets/Horizon-5.JPG" alt=""><figcaption><p>웹 브라우저를 통한 사용자 데스크톱(VM) 연결 로그인 화면</p></figcaption></figure>
+<figure><img src="../../assets/Horizon-5.JPG" alt=""><figcaption><p>웹 브라우저를 통한 사용자 데스크톱(VM) 연결 로그인 화면</p></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/Horizon_client-6.png" alt=""><figcaption><p>VMware Horizon Client 프로그램을 통한 사용자 데스크톱(VM) 연결 로그인 화면</p></figcaption></figure>
+<figure><img src="../../assets/Horizon_client-6.png" alt=""><figcaption><p>VMware Horizon Client 프로그램을 통한 사용자 데스크톱(VM) 연결 로그인 화면</p></figcaption></figure>
 
 
 
@@ -85,7 +85,7 @@ Horizon  Client 프로그램에서 Normal Node 데스크톱 풀을 선택하여 
   * Salome-Meca v2023
   * VAPOR 3.10.1
 
-<figure><img src="../.gitbook/assets/Horizon-6-1.JPG" alt=""><figcaption><p>사용자 데스크 톱(VM) 설치 소프트웨어 목록</p></figcaption></figure>
+<figure><img src="../../assets/Horizon-6-1.JPG" alt=""><figcaption><p>사용자 데스크 톱(VM) 설치 소프트웨어 목록</p></figcaption></figure>
 
 
 
@@ -93,13 +93,13 @@ Horizon  Client 프로그램에서 Normal Node 데스크톱 풀을 선택하여 
 * 보안을 위해 C:\ 드라이브, 제어판 등은 접근이 차단되어 있으며, 사용자가 생성 및 저장한 파일들은 VM 종료 시 모두 초기화 됩니다.  따라서, 계속 보관이 필요한 파일들은 누리온 시스템의 사용자 홈 및 스크래치 디렉터리에 저장해야 합니다.
 * 데스크톱(VM) 구동  후 idle 상태로 3시간이 경과하면 연결이 해제되고 자동 종료됩니다.
 
-<figure><img src="../.gitbook/assets/Horizon-8.JPG" alt=""><figcaption><p>사용자 데스크 톱(VM)에서 누리온 시스템 사용자 홈/스크래치 디렉터리</p></figcaption></figure>
+<figure><img src="../../assets/Horizon-8.JPG" alt=""><figcaption><p>사용자 데스크 톱(VM)에서 누리온 시스템 사용자 홈/스크래치 디렉터리</p></figcaption></figure>
 
 
 
 * 웹 브라우저를 통해 접속된 데스크톱에서는 왼쪽 메뉴 패널의 ‘파일 전송 패널 열기’를 실행하여 사용자 PC의 파일을 업로드 할 수 있습니다.
 
-<figure><img src="../.gitbook/assets/Horizon-9(File upload).JPG" alt=""><figcaption><p>웹  브라우저를  통해 연결된 사용자 데스크 톱(VM)에서 PC의 파일 업로드 하기</p></figcaption></figure>
+<figure><img src="../../assets/Horizon-9(File upload).JPG" alt=""><figcaption><p>웹  브라우저를  통해 연결된 사용자 데스크 톱(VM)에서 PC의 파일 업로드 하기</p></figcaption></figure>
 
 {% hint style="danger" %}
 **(TLS 오류 발생 시 조치 방법)** &#x20;
@@ -107,9 +107,9 @@ Horizon  Client 프로그램에서 Normal Node 데스크톱 풀을 선택하여 
 데스크톱 풀을 선택하여 사용자 VM을 구동하는 과정에서 TLS 인증 오류가 발생하는 경우,  **사용자 PC에  설치된 Horizon Client를 직접 실행**하고 나서 설정 > 보안 > 인증서 검사 모드를 '서버 ID 인증서를 확인하지 않음' 으로 설정합니다. 이어서 MyKSC 대시보드에서 VDI 서비스를 다시 시작합니다.&#x20;
 {% endhint %}
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption><p>TLS 인증 오류 화면</p></figcaption></figure>
+<figure><img src="../../assets/image.png" alt=""><figcaption><p>TLS 인증 오류 화면</p></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption><p>보안 인증서 검사 모드 설정 화면</p></figcaption></figure>
+<figure><img src="../../assets/image (2).png" alt=""><figcaption><p>보안 인증서 검사 모드 설정 화면</p></figcaption></figure>
 
 {% hint style="info" %}
 2023년 2월 20일에 마지막으로 업데이트  되었습니다.

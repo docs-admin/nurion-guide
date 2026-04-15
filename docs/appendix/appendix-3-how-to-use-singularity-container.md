@@ -4,7 +4,7 @@
 
 
 
-<div align="left"><figure><img src="../.gitbook/assets/vm-container_comparison.JPG" alt=""><figcaption></figcaption></figure> <figure><img src="../.gitbook/assets/image (4).png" alt="" width="557"><figcaption></figcaption></figure></div>
+<div align="left"><figure><img src="../../assets/vm-container_comparison.JPG" alt=""><figcaption></figcaption></figure> <figure><img src="../../assets/image (4).png" alt="" width="557"><figcaption></figcaption></figure></div>
 
 &#x20;                 < 가상머신과 컨테이너 아키텍처 비교>                              \<Singularity 컨테이너 아키텍처>
 
@@ -278,19 +278,19 @@ $ export OMP_NUM_THREADS=68; singularity exec tensorflow-1.12.0-py3.simg python 
 
 ### \[참조 1] Sylabs Cloud 액세스 토큰 생성 및 누리온에 등록하기
 
-![](<../.gitbook/assets/Sylabs Cloud 계정 등록 및 로그인 하기.png>)
+![](<../../assets/Sylabs Cloud 계정 등록 및 로그인 하기.png>)
 
-![](<../.gitbook/assets/새로운 토큰 생성하기.png>)
+![](<../../assets/새로운 토큰 생성하기.png>)
 
-![](<../.gitbook/assets/클립보드로 토큰 복사하기.png>)
+![](<../../assets/클립보드로 토큰 복사하기.png>)
 
-![](<../.gitbook/assets/토큰 입력하기.png>)
+![](<../../assets/토큰 입력하기.png>)
 
 ### \[참조 2] 웹 브라우저에서 리모트 빌더에 의한 싱규레러티 컨테이너 이미지 빌드하기
 
-![](<../.gitbook/assets/웹 브라우저에서 컨테이너 이미지 빌드하기.png>)
+![](<../../assets/웹 브라우저에서 컨테이너 이미지 빌드하기.png>)
 
-![](<../.gitbook/assets/빌드한 컨테이너 이미지 목록 보기.png>)
+![](<../../assets/빌드한 컨테이너 이미지 목록 보기.png>)
 
 ※ 누리온에서 singularity 명령어로 리모트 빌드한 이미지 목록도 포함됩니다.
 

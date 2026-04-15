@@ -43,7 +43,7 @@
 
 ※ 상세 매뉴얼 : PBS User Guide 2024.1.pdf 참조
 
-{% file src="../.gitbook/assets/PBSUserGuide2024.1.pdf" %}
+{% file src="../../assets/PBSUserGuide2024.1.pdf" %}
 
 {% hint style="info" %}
 2022년 9월 22일에 마지막으로 업데이트 되었습니다.

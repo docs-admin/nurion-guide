@@ -4,11 +4,11 @@
 
 5호기 Lustre File System은 File Striping을 지원하며, 이를 위해 복수 개의 OST(Object Storage Target, 즉 물리적으로 분산되어 있는 여러 디스크)에 하나의 파일을 분산시켜 저장 함으로써 병목을 줄이고 I/O 성능을 향상시킬 수 있습니다. 특히, Lustre 2.10부터 지원되는 PFL(Progressive File Layout)이 /scratch 파일시스템에 적용되어 있습니다. 이 기능은 사용자 별도의 striping 설정 없이 파일의 크기에 따라 stripe-count 개수가 자동으로 적용되어 I/O의 성능을 향상시킬 수 있습니다. Nurion 파일 시스템의 striping 설정은 아래와 같습니다.
 
-![](../.gitbook/assets/nurion-a04-table-01.png)
+![](../../assets/nurion-a04-table-01.png)
 
 ## 나. Lustre Striping 개념
 
-![](../.gitbook/assets/ByuiN89DGA7hjDU.png)
+![](../../assets/ByuiN89DGA7hjDU.png)
 
 Lustre는 각 OST별로 자료를 분할하여 대용량 파일에 대한 I/O 성능을 최대화 할 수 있으며, 병렬화가 유효한 최대 분할 수는 OST 숫자와 같습니다. 단일 파일 역시 위 그림과 같이 Lustre Striping 기능을 사용하여 OST에 병렬로 저장합니다.
 
