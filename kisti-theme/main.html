@@ -1,48 +1,55 @@
 {% extends "base.html" %}
 
-{% block header %}
-  {{ super() }} 
+{% block extrahead %}
+  {{ super() }}
+  <style>
+    /* 메뉴가 들어갈 컨테이너 스타일 */
+    .custom-header-nav {
+      display: flex;
+      gap: 1.5rem;
+      margin-left: 1rem;
+      align-items: center;
+    }
+    /* 개별 링크 스타일 */
+    .custom-nav-link {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--md-header-fg-color);
+      text-decoration: none;
+      opacity: 0.7;
+      transition: opacity 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .custom-nav-link:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    /* 화면이 좁아지면 메뉴 숨기기 (모바일 대응) */
+    @media screen and (max-width: 60em) {
+      .custom-header-nav { display: none; }
+    }
+  </style>
+{% endblock %}
 
+{% block header %}
+  {{ super() }}
   <script>
     document.addEventListener("DOMContentLoaded", function() {
-      var headerInner = document.querySelector(".md-header__title");
-      var searchElement = document.querySelector(".md-search");
+      // 1. 타이틀 영역을 찾습니다.
+      var titleElement = document.querySelector(".md-header__title");
       
-      if (headerInner && searchElement) {
+      if (titleElement && !document.querySelector(".custom-header-nav")) {
+        // 2. 메뉴 컨테이너 생성
         var navContainer = document.createElement("div");
         navContainer.className = "custom-header-nav";
         navContainer.innerHTML = `
           <a href="https://site-a.com" class="custom-nav-link">SiteA</a>
           <a href="https://site-b.com" class="custom-nav-link">SiteB</a>
         `;
-        // 로고와 검색창 사이에 삽입
-        headerInner.insertBefore(navContainer, searchElement);
+        
+        // 3. 타이틀 영역 바로 뒤에 삽입
+        titleElement.after(navContainer);
       }
     });
   </script>
-
-<!-- 
-  <div class="custom-header-nav">
-    <a href="https://site-a.com" class="custom-nav-link">SiteA</a>
-    <a href="https://site-b.com" class="custom-nav-link">SiteB</a>
-  </div> -->
-
-  <style>
-    .custom-header-nav {
-      position: absolute;
-      left: 10rem; /* 로고 위치에 따라 조정 */
-      display: flex;
-      gap: 15px;
-      z-index: 1;
-    }
-    .custom-nav-link {
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: var(--md-header-fg-color);
-      text-decoration: none;
-    }
-    @media screen and (max-width: 45em) {
-      .custom-header-nav { display: none; }
-    }
-  </style>
 {% endblock %}
