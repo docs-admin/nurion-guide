@@ -8,15 +8,15 @@
       display: flex;
       gap: 1.5rem;
       margin-left: 1rem;
+      margin-right: 2rem;
       align-items: center;
     }
     /* 개별 링크 스타일 */
     .custom-nav-link {
-      font-size: 0.8rem;
+      font-size: 0.6rem;
       font-weight: 700;
       color: var(--md-header-fg-color);
-      text-decoration: none;
-      opacity: 0.7;
+      text-decoration: none;      
       transition: opacity 0.2s, color 0.2s;
       white-space: nowrap;
     }
@@ -43,8 +43,11 @@
         var navContainer = document.createElement("div");
         navContainer.className = "custom-header-nav";
         navContainer.innerHTML = `
-          <a href="https://site-a.com" class="custom-nav-link">SiteA</a>
-          <a href="https://site-b.com" class="custom-nav-link">SiteB</a>
+          <a href="https://site-a.com" class="custom-nav-link">초보 사용자 가이드</a>
+          <a href="https://site-a.com" class="custom-nav-link">누리온 지침서</a>
+          <a href="https://site-a.com" class="custom-nav-link">뉴론 지침서</a>
+          <a href="https://site-a.com" class="custom-nav-link">활용 정보 </a>
+          <a href="https://site-a.com" class="custom-nav-link">MyKSC 지침서 </a>
         `;
         
         // 3. 타이틀 영역 바로 뒤에 삽입
