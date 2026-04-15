@@ -3,16 +3,13 @@
 {% block extrahead %}
   {{ super() }}
   <style>
-    /* 로고 옆 메뉴 스타일 */
-    .md-header__title {
-      display: flex !important;
-      align-items: center;
-      flex-grow: 1;
-    }
+    /* 헤더 링크 스타일 정의 */
     .custom-header-links {
       display: flex;
-      margin-left: 1.5rem; /* 로고/제목과의 간격 */
-      gap: 1.2rem;         /* 메뉴 간 간격 */
+      gap: 1.2rem;
+      margin: 0 1rem;
+      align-items: center;
+      flex-grow: 1; /* 검색창 밀어내기 조절 */
     }
     .custom-nav-link {
       font-size: 0.8rem;
@@ -26,20 +23,35 @@
     .custom-nav-link:hover {
       opacity: 1;
       text-decoration: underline;
+      color: var(--md-header-fg-color);
     }
-    /* 화면이 좁아지면(모바일) 메뉴 숨기기 */
+    /* 모바일 환경(태블릿 미만)에서는 공간 부족으로 숨김 */
     @media screen and (max-width: 60em) {
-      .custom-header-links {
-        display: none;
-      }
+      .custom-header-links { display: none; }
     }
   </style>
 {% endblock %}
 
-{% block header_title %}
+{% block header %}
   {{ super() }}
-  <div class="custom-header-links">
-    <a href="https://site-a.com" class="custom-nav-link">SiteA</a>
-    <a href="https://site-b.com" class="custom-nav-link">SiteB</a>
-  </div>
+  <script>
+    // DOM이 로드된 후 실행
+    document.addEventListener("DOMContentLoaded", function() {
+      // Material 테마의 헤더 컨테이너 찾기
+      var headerInner = document.querySelector(".md-header__inner");
+      var searchElement = document.querySelector(".md-header__search");
+      
+      if (headerInner && searchElement && !document.querySelector(".custom-header-links")) {
+        var navContainer = document.createElement("div");
+        navContainer.className = "custom-header-links";
+        navContainer.innerHTML = `
+          <a href="https://site-a.com" class="custom-nav-link">SiteA</a>
+          <a href="https://site-b.com" class="custom-nav-link">SiteB</a>
+        `;
+        
+        // 로고(첫번째 자식)와 검색창 사이에 삽입
+        headerInner.insertBefore(navContainer, searchElement);
+      }
+    });
+  </script>
 {% endblock %}
