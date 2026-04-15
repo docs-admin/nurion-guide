@@ -58,18 +58,18 @@ $ ssh -l x123abc nurion.ksc.re.kr -P 22
 * X환경 실행을 위해 Xming 실행
   * 프로그램은 인터넷을 통해 무료로 다운로드 후 설치할 수 있습니다.
 
-![](<../.gitbook/assets/프로그램은 인터넷을 통해 무료로 다운로드 후 설치.png>)
+![](<../../assets/프로그램은 인터넷을 통해 무료로 다운로드 후 설치.png>)
 
 * putty나 SSH Secure Shell Client 등의 ssh 접속 프로그램을 이용합니다.
   * Host Name : nurion.ksc.re.kr, Port : 22, Connection type : SSH
   * 프로그램은 인터넷을 통해 무료로 다운로드 가능
 
-![](<../.gitbook/assets/Host Name  nurion.png>)
+![](<../../assets/Host Name  nurion.png>)
 
 * ssh -> X11 tap -> check "Enable X11 forwarding"
 * X display location : localhost:0.0
 
-![](<../.gitbook/assets/x display location.png>)
+![](<../../assets/x display location.png>)
 
 ※ 만약, DNS 캐싱 문제로 접속이 안 될 경우에는 캐시를 정리 (명령 프롬프트에서 ipconfig/flushdns 명령어 수행)하고 재접속 진행합니다.
 
@@ -89,14 +89,14 @@ $ sftp [사용자ID@]nurion-dm.ksc.re.kr [-P 22]
 
 * 윈도우 환경에서는 WinSCP와 같이 무료로 배포되고 있는 FTP/SFTP 클라이언트 프로그램을 이용하여 접속합니다.
 
-![](<../.gitbook/assets/윈도우 환경에서는 WinSCP와 같이 무료로 배포되고 있는.png>)
+![](<../../assets/윈도우 환경에서는 WinSCP와 같이 무료로 배포되고 있는.png>)
 
 * FTP (File Tranfer Protocal)을 이용하며, OTP를 입력하지 않고 파일 전송 가능
 * SFTP(Secure-FTP) 을 이용하며, 파일 전송시 OTP를 입력해야 합니다.(FTP보다 안전한 전송방식)
 
 ### 4. 노드구성
 
-![](../.gitbook/assets/nurion-02-02-table01.png)
+![](../../assets/nurion-02-02-table01.png)
 
 * wget, git을 이용한 다운로드 및 대용량 데이터의 전송은 CPU Limit이 없는 Datamover 노드를 사용할 것을 권장합니다. (로그인 노드에서 수행 시에 CPU Limit에 따라 전송 중에 끊어질 수 있습니다.)
 * 파일 압축, 해제 또한 CPU Limit에 따라 중단될 수 있으며, 로그인 노드에서 프로세스가 강제로 중단되는 경우에는 Datamover 노드에서 압축/해제 진행합니다.
@@ -153,7 +153,7 @@ $ isam
 
 * 사용자에게는 홈 디렉터리(/home01/$USER)와 스크래치 디렉터리(/scratch/$USER) 2개의 파일시스템이 제공됩니다.
 
-![](../.gitbook/assets/nurion-02-06-table01.png)
+![](../../assets/nurion-02-06-table01.png)
 
 * 홈 디렉터리는 용량 및 I/O 성능이 제한되어 있어 모든 계산 작업은 스크래치 디렉터리인 /scratch의 사용자 작업 공간에서 이루어져야 합니다.
 * 사용자의 현재 사용량은 아래 명령어로 확인이 가능합니다.
