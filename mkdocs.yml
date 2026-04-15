@@ -8,12 +8,12 @@ theme:
   features:
     - navigation.sections # Groups items into collapsible sections
     - navigation.expand
-    - navigation.path    # (선택) 현재 위치를 상단에 표시
+    - navigation.path    # (선택) 현재 위치를 상단에 표시    
     # - navigation.indexes # (선택) 폴더 클릭 시 index.md로 바로 이동
   font:
     text: Noto Sans KR  # 본문: 구글 본고딕 (가장 깔끔함)
     code: Nanum Gothic Coding
-    
+
 # watch:
 #   - mkdocs.yml
 #   - docs
