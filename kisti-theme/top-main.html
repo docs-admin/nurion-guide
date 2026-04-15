@@ -1,58 +1,27 @@
 {% extends "base.html" %}
 
-{% block extrahead %}
-  {{ super() }}
+{% block header %}
+  {{ super() }} <div class="custom-header-nav">
+    <a href="https://site-a.com" class="custom-nav-link">SiteA</a>
+    <a href="https://site-b.com" class="custom-nav-link">SiteB</a>
+  </div>
+
   <style>
-    /* 헤더 링크 스타일 정의 */
-    .custom-header-links {
+    .custom-header-nav {
+      position: absolute;
+      left: 10rem; /* 로고 위치에 따라 조정 */
       display: flex;
-      gap: 1.2rem;
-      margin: 0 1rem;
-      align-items: center;
-      flex-grow: 1; /* 검색창 밀어내기 조절 */
+      gap: 15px;
+      z-index: 1;
     }
     .custom-nav-link {
       font-size: 0.8rem;
       font-weight: 700;
       color: var(--md-header-fg-color);
       text-decoration: none;
-      opacity: 0.8;
-      transition: opacity 0.2s;
-      white-space: nowrap;
     }
-    .custom-nav-link:hover {
-      opacity: 1;
-      text-decoration: underline;
-      color: var(--md-header-fg-color);
-    }
-    /* 모바일 환경(태블릿 미만)에서는 공간 부족으로 숨김 */
-    @media screen and (max-width: 60em) {
-      .custom-header-links { display: none; }
+    @media screen and (max-width: 45em) {
+      .custom-header-nav { display: none; }
     }
   </style>
-{% endblock %}
-
-{% block header %}
-  {{ super() }}
-  <script>
-    // DOM이 로드된 후 실행
-    document.addEventListener("DOMContentLoaded", function() {
-      // Material 테마의 헤더 컨테이너 찾기
-      var headerInner = document.querySelector(".md-header__inner");
-      var searchElement = document.querySelector(".md-search");
-      console.log("KKKKKK0000");
-      if (headerInner && searchElement && !document.querySelector(".custom-header-links")) {
-        console.log("KKKKKK");
-        var navContainer = document.createElement("div");
-        navContainer.className = "custom-header-links";
-        navContainer.innerHTML = `
-          <a href="https://site-a.com" class="custom-nav-link">SiteA</a>
-          <a href="https://site-b.com" class="custom-nav-link">SiteB</a>
-        `;
-        
-        // 로고(첫번째 자식)와 검색창 사이에 삽입
-        headerInner.insertBefore(navContainer, searchElement);
-      }
-    });
-  </script>
 {% endblock %}
