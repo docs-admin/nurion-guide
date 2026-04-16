@@ -80,16 +80,9 @@ markdown_extensions:
       custom_checkbox: true
   - pymdownx.tilde
   - pymdownx.snippets
+
 extra:
   analytics:
     provider: google
     # property: G-G3T2F096SV # Main G-Tag
     property: G-BFN3CHFMDF # Data Stream 
-
-  social:
-    - icon: material/web
-      link: https://docs-admin.github.io/neuron-guide
-      name: 뉴론 사용자 지침서 
-    - icon: material/server
-      link: https://my.ksc.re.kr
-      name: MyKSC
