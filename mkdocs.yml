@@ -83,7 +83,8 @@ markdown_extensions:
 extra:
   analytics:
     provider: google
-    property: G-G3T2F096SV
+    # property: G-G3T2F096SV # Main G-Tag
+    property: G-BFN3CHFMDF # Data Stream 
 
   social:
     - icon: material/web
