@@ -36,7 +36,8 @@
 
 </div>
 
+<div class="summary-container-external" markdown>
 ## External Link
-
 * [Nurion Guide(Eng)](https://docs-ksc.gitbook.io/nurion-user-guide-eng/)
 * [Neuron Guide(Eng)](https://docs-ksc.gitbook.io/neuron-user-guide-eng/)
+</div>
