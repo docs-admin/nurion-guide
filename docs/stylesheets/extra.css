@@ -57,18 +57,16 @@
 }	
 
 
-.md-nav__list .md-nav__list .md-nav__item {  
-  content: "-";          /* 대시 기호 삽입 */
+.md-nav__list .md-nav__list .md-nav__item {    
   padding-left: 10px !important;
 }
-/*
-.md-nav__list .md-nav__list .md-nav__link::before {
-   content: "-";         
-   margin-right: 8px;    
-   display: inline-block; 
+
+.md-nav__list .md-nav__list .md-nav__item a::before {
+  content: "-";         
+  margin-right: 8px;    
+  display: inline-block; 
   opacity: 0.7;          
 }
-*/
 
 .md-content a {
     text-decoration:underline;
