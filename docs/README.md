@@ -1,6 +1,5 @@
 # Table of contents
 
-* [누리온 지침서](README.md)
 <div class="summary-container" markdown>
 ## 1️⃣ 시스템
 
