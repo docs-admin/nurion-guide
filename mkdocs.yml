@@ -24,7 +24,7 @@ plugins:
   - awesome-pages
 
 nav:
-  - Home: README.md
+  # - Home: README.md
   - System:
     - 시스템 개요 및 구성: system/nurion-system-overview-and-configuration.md
     - 사용자 환경: system/user-experience.md
