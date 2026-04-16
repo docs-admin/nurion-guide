@@ -83,7 +83,7 @@ markdown_extensions:
 extra:
   analytics:
     provider: google
-    property: G-G3T2F096SV
+    property: G-E587PV8TYM
 
   social:
     - icon: material/web
