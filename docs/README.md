@@ -11,15 +11,15 @@
 * [사용자 지원](system/user-support.md)
 
 ## 2️⃣ 소프트웨어
-
-* [ANSYS FLUENT](software/ansys-fluent.md){ .md-button }
-* [ANSYS CFX](software/ansys-cfx.md){ .md-button .md-button--primary }
+<div class="summary-container" markdown>
+* [ANSYS FLUENT](software/ansys-fluent.md)
+* [ANSYS CFX](software/ansys-cfx.md)
 * [Abaqus (2023 버전 이전)](software/abaqus-2023.md)
 * [Abaqus (2024 버전 이후)](software/abaqus-2024.md)
 * [NASTRAN](software/nastran-userguide.md)
 * [가우시안16(Gaussian16) LINDA](software/gaussian16-linda-userguide.md)
 * [가우시안16(Gaussian16)](software/gaussian16-userguide.md)
-
+</div>
 ## 3️⃣ 부록
 
 * [작업 스크립트 주요 키워드](appendix/appendix-1-main-keywords-for-job-scripts.md)
