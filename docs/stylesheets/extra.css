@@ -55,6 +55,9 @@
 .md-nav__link.md-nav__link--active {
     font-weight: bold;
 }	
+.md-nav__link {
+  padding-left: 20px;
+}
 
 .md-content a {
     text-decoration:underline;

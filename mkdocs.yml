@@ -26,8 +26,8 @@ plugins:
 nav:
   # - Home: README.md
   - System:
-    - 시스템 개요 및 구성: system/nurion-system-overview-and-configuration.md { .md-button }
-    - 사용자 환경: (system/user-experience.md ){ .md-button }
+    - 시스템 개요 및 구성: system/nurion-system-overview-and-configuration.md
+    - 사용자 환경: system/user-experience.md
     - 사용자 프로그래밍 환경: system/user-programming-environment.md
     - 스케줄러(PBS)를 통한 작업 실행: system/running-jobs-through-scheduler-pbs.md
     - 사용자 지원: system/user-support.md
