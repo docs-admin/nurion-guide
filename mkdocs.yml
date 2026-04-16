@@ -14,10 +14,6 @@ theme:
     text: Noto Sans KR  # 본문: 구글 본고딕 (가장 깔끔함)
     code: Nanum Gothic Coding
 
-# watch:
-#   - mkdocs.yml
-#   - docs
-
 extra_javascript: []
 
 extra_css:
@@ -84,8 +80,11 @@ markdown_extensions:
       custom_checkbox: true
   - pymdownx.tilde
   - pymdownx.snippets
-
 extra:
+  analytics:
+    provider: google
+    property: G-G3T2F096SV
+
   social:
     - icon: material/web
       link: https://docs-admin.github.io/neuron-guide
