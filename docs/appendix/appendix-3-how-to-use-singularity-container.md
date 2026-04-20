@@ -9,6 +9,8 @@ aaaa
 
 ![lv1|367](../assets/test.png)
 
+![[../assets/test.png|100]]
+
 aaaa 
 
 ![lv2](../assets/vm-container_comparison.JPG)
