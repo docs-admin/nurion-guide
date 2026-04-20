@@ -61,7 +61,7 @@ markdown_extensions:
   - md_in_html
   - meta
   - attr_list
-  - mkdocs-obsidian-support
+  - roamlinks
   - footnotes
   - admonition
   - codehilite:
