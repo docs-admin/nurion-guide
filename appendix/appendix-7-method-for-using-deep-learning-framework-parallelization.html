@@ -1,0 +1,1571 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs-admin.github.io/nurion-guide/appendix/appendix-7-method-for-using-deep-learning-framework-parallelization.html">
+      
+      
+        <link rel="prev" href="appendix-6-method-for-using-the-mvapich2-performance-optimization-option.html">
+      
+      
+        <link rel="next" href="appendix-8-list-of-common-libraries.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>딥러닝 프레임워크 병렬화 - 누리온 지침처</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:300,300i,400,400i,700,700i%7CNanum+Gothic+Coding:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans KR";--md-code-font:"Nanum Gothic Coding"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-BFN3CHFMDF"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-BFN3CHFMDF",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-BFN3CHFMDF",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  
+  <style>
+    /* 메뉴가 들어갈 컨테이너 스타일 */
+    .custom-header-nav {
+      display: flex;
+      gap: 1.5rem;
+      margin-left: 1rem;
+      margin-right: 2rem;
+      align-items: center;
+    }
+    /* 개별 링크 스타일 */
+    .custom-nav-link {
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: var(--md-header-fg-color);
+      text-decoration: none;      
+      transition: opacity 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .custom-nav-link:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    /* 화면이 좁아지면 메뉴 숨기기 (모바일 대응) */
+    @media screen and (max-width: 60em) {
+      .custom-header-nav { display: none; }
+    }
+    /* 요약 페이지 전용 카드 스타일 */
+    .summary-container-external ul {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+      list-style: none;
+      padding: 0;
+    }
+
+     .summary-container-external ul li a {
+      display: block;
+      padding: 8px 0px 8px 30px;
+      border: 1px solid var(--md-typeset-table-color);
+      background-color: var(--md-code-bg-color);
+      border-radius: 8px;            
+      font-size: medium;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+    }
+
+    .summary-container ul {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+      list-style: none;
+      padding: 0;
+    }
+
+    .summary-container ul li a {
+      display: block;
+      padding: 8px 0px 8px 30px;
+      border: 1px solid var(--md-typeset-table-color);
+      border-radius: 8px;            
+      font-size: medium;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+    }
+
+    .summary-container ul li a:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      background-color: var(--md-code-bg-color);      
+      opacity: 0.7;
+      text-decoration: none;
+    }
+
+  </style>
+
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+  
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="누리온 지침처" class="md-header__button md-logo" aria-label="누리온 지침처" data-md-component="logo">
+      
+  <img src="../assets/images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            누리온 지침처
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              딥러닝 프레임워크 병렬화
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // 1. 타이틀 영역을 찾습니다.
+      var titleElement = document.querySelector(".md-header__title");
+      
+      if (titleElement && !document.querySelector(".custom-header-nav")) {
+        // 2. 메뉴 컨테이너 생성
+        var navContainer = document.createElement("div");
+        navContainer.className = "custom-header-nav";
+        navContainer.innerHTML = `
+          <a href="https://site-a.com" class="custom-nav-link">초보 사용자 가이드</a>
+          <a href="https://site-a.com" class="custom-nav-link">누리온 지침서</a>
+          <a href="https://site-a.com" class="custom-nav-link">뉴론 지침서</a>
+          <a href="https://site-a.com" class="custom-nav-link">활용 정보 </a>
+          <a href="https://site-a.com" class="custom-nav-link">MyKSC 지침서 </a>
+        `;
+        
+        // 3. 타이틀 영역 바로 뒤에 삽입
+        titleElement.after(navContainer);
+      }
+    });
+  </script>
+
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="누리온 지침처" class="md-nav__button md-logo" aria-label="누리온 지침처" data-md-component="logo">
+      
+  <img src="../assets/images/logo.png" alt="logo">
+
+    </a>
+    누리온 지침처
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    System
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../system/nurion-system-overview-and-configuration.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    시스템 개요 및 구성
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../system/user-experience.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    사용자 환경
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../system/user-programming-environment.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    사용자 프로그래밍 환경
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../system/running-jobs-through-scheduler-pbs.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    스케줄러(PBS)를 통한 작업 실행
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../system/user-support.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    사용자 지원
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Software
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../software/ansys-fluent.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ANSYS FLUENT
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../software/ansys-cfx.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ANSYS CFX
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../software/abaqus-2023.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Abaqus (2023 버전 이전)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../software/abaqus-2024.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Abaqus (2024 버전 이후)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../software/nastran-userguide.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NASTRAN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../software/gaussian16-linda-userguide.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    가우시안16(Gaussian16) LINDA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../software/gaussian16-userguide.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    가우시안16(Gaussian16)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Appendix
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Appendix
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix-1-main-keywords-for-job-scripts.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    작업 스크립트 주요 키워드
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix-2-how-to-use-conda.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conda
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix-3-how-to-use-singularity-container.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Singularity 컨테이너
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix-4-how-to-use-lustre-striping.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lustre stripe
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix-5-tsmsf-user-guidelines.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    데이터 아카이빙
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix-6-method-for-using-the-mvapich2-performance-optimization-option.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MVAPICH2 성능 최적화 옵션
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    딥러닝 프레임워크 병렬화
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="appendix-7-method-for-using-deep-learning-framework-parallelization.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    딥러닝 프레임워크 병렬화
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tensorflow-horovod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        가. Tensorflow에서 Horovod 사용법
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="가. Tensorflow에서 Horovod 사용법">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-tensorflow-horovod-import-horovod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Tensorflow에서 Horovod 사용을 위한 import 및 메인 함수에서 Horovod 초기화
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-horovod-dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 메인 함수에서 Horovod 활용을 위한 Dataset 설정
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-optimizer-horovod-broadcast" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 메인 함수에서 optimizer에 Horovod 관련 설정 및 broadcast, 학습 진행 수 설정
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-inter-operation-intra-operation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Inter operation 및 Intra operation의 병렬처리 설정
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-rank-0-checkpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Rank 0 작업에 Checkpoint 설정
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#intel-caffe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        나. Intel Caffe에서 다중노드 사용법
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix-8-list-of-common-libraries.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    공통라이브러리 목록
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix-9-how-to-use-vdi.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    데스크톱 가상화(VDI)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix-10-how-to-use-burst-buffer.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    버스트버퍼(Burst Buffer)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix-11-how-to-use-flat-node.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    플랫 노드(Flat node)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="dtn.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DTN(데이터전송노드)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tensorflow-horovod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        가. Tensorflow에서 Horovod 사용법
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="가. Tensorflow에서 Horovod 사용법">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-tensorflow-horovod-import-horovod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Tensorflow에서 Horovod 사용을 위한 import 및 메인 함수에서 Horovod 초기화
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-horovod-dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 메인 함수에서 Horovod 활용을 위한 Dataset 설정
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-optimizer-horovod-broadcast" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 메인 함수에서 optimizer에 Horovod 관련 설정 및 broadcast, 학습 진행 수 설정
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-inter-operation-intra-operation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Inter operation 및 Intra operation의 병렬처리 설정
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-rank-0-checkpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Rank 0 작업에 Checkpoint 설정
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#intel-caffe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        나. Intel Caffe에서 다중노드 사용법
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="_1">딥러닝 프레임워크 병렬화<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="tensorflow-horovod">가. Tensorflow에서 Horovod 사용법<a class="headerlink" href="#tensorflow-horovod" title="Permanent link">&para;</a></h2>
+<p>다중노드에서 CPU를 활용할 경우 Horovod를 Tensorflow와 연동하여 병렬화가 가능합니다. 아래 예시와 같이 Horovod 사용을 위한 코드를 추가해주면 Tensorflow와 연동이 가능합니다. Tensorflow 및 Tensorflow에서 활용 가능한 Keras API 모두 Horovod와 연동이 가능하며 우선 Tensorflow에서 Horovod와 연동하는 방법을 소개합니다.\
+(예시: MNIST Dataset 및 LeNet-5 CNN 구조)</p>
+<p>※ Tensorflow에서 Horovod 활용을 위한 자세한 사용법은 Horovod 공식 가이드 참조\
+(<a href="https://github.com/horovod/horovod#usage">https://github.com/horovod/horovod#usage</a>)</p>
+<h3 id="1-tensorflow-horovod-import-horovod">1. Tensorflow에서 Horovod 사용을 위한 import 및 메인 함수에서 Horovod 초기화<a class="headerlink" href="#1-tensorflow-horovod-import-horovod" title="Permanent link">&para;</a></h3>
+<pre class="language-python"><code class="lang-python"><strong>import horovod.tensorflow as hvd
+</strong>...
+hvd.init()
+</code></pre>
+
+<p>※ horovod.tensorflow: Horovod를 Tensorflow와 연동하기 위한 모듈</p>
+<p>※ Horovod를 사용하기 위하여 초기화 합니다.</p>
+<h3 id="2-horovod-dataset">2. 메인 함수에서 Horovod 활용을 위한 Dataset 설정<a class="headerlink" href="#2-horovod-dataset" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">),</span> <span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span> <span class="o">=</span> \
+<span class="n">keras</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">mnist</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span><span class="s1">&#39;MNIST-data-</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">hvd</span><span class="o">.</span><span class="n">rank</span><span class="p">())</span>
+</code></pre></div>
+
+<p>※ 각 작업별로 접근할 dataset을 설정하기 위하여 Horovod rank에 따라 설정 및 생성합니다.</p>
+<h3 id="3-optimizer-horovod-broadcast">3. 메인 함수에서 optimizer에 Horovod 관련 설정 및 broadcast, 학습 진행 수 설정<a class="headerlink" href="#3-optimizer-horovod-broadcast" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="n">opt</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">AdamOptimizer</span><span class="p">(</span><span class="mf">0.001</span> <span class="o">*</span> <span class="n">hvd</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">hvd</span><span class="o">.</span><span class="n">DistributedOptimizer</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span>
+<span class="n">global_step</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">get_or_create_global_step</span><span class="p">()</span>
+<span class="n">train_op</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">global_step</span><span class="o">=</span><span class="n">global_step</span><span class="p">)</span>
+<span class="n">hooks</span> <span class="o">=</span> <span class="p">[</span><span class="n">hvd</span><span class="o">.</span><span class="n">BroadcastGlobalVariablesHook</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                  <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">StopAtStepHook</span><span class="p">(</span><span class="n">last_step</span><span class="o">=</span><span class="mi">20000</span> <span class="o">//</span> <span class="n">hvd</span><span class="o">.</span><span class="n">size</span><span class="p">()),</span> <span class="o">...</span> <span class="p">]</span>
+</code></pre></div>
+
+<p>※ Optimizer에 Horovod 관련 설정을 적용하고 각 작업에 broadcast를 활용하여 전달합니다.</p>
+<p>※ 각 작업들의 학습과정 step을 Horovod 작업 수에 따라 설정합니다.</p>
+<h3 id="4-inter-operation-intra-operation">4. Inter operation 및 Intra operation의 병렬처리 설정<a class="headerlink" href="#4-inter-operation-intra-operation" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="n">config</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">ConfigProto</span><span class="p">()</span>
+<span class="n">config</span><span class="o">.</span><span class="n">intra_op_parallelism_threads</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="err">‘</span><span class="n">OMP_NUM_THREADS</span><span class="err">’</span><span class="p">])</span>
+<span class="n">config</span><span class="o">.</span><span class="n">inter_op_parallelism_threads</span> <span class="o">=</span> <span class="mi">2</span>
+</code></pre></div>
+
+<p>※ config.intra_op_parallelism_threads: 연산 작업에서 사용할 thread 개수를 설정하는데 사용되며 job script에서 설정한 OMP_NUM_THREADS를 불러와서 적용합니다. (본 예시의 경우 OMP_NUM_THREADS를 32로 설정합니다.)</p>
+<p>※ config.intra_op_parallelism_threads: TensorFlow의 작업을 동시에 실행하는 thread 개수이며 예시와 같이 2로 설정할 경우 두 개의 작업이 병렬적으로 실행됩니다.</p>
+<h3 id="5-rank-0-checkpoint">5. Rank 0 작업에 Checkpoint 설정<a class="headerlink" href="#5-rank-0-checkpoint" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="n">checkpoint_dir</span> <span class="o">=</span> <span class="s1">&#39;./checkpoints&#39;</span> <span class="k">if</span> <span class="n">hvd</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span>
+<span class="o">...</span>
+<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">MonitoredTrainingSession</span><span class="p">(</span><span class="n">checkpoint_dir</span><span class="o">=</span><span class="n">checkpoint_dir</span><span class="p">,</span>
+<span class="n">hooks</span><span class="o">=</span><span class="n">hooks</span><span class="p">,</span>
+<span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span> <span class="k">as</span> <span class="n">mon_sess</span><span class="p">:</span>
+</code></pre></div>
+
+<p>※ Checkpoint 저장 및 불러오는 작업은 하나의 프로세스에서 수행되어야 하므로 rank 0번에 설정합니다.</p>
+<h2 id="intel-caffe">나. Intel Caffe에서 다중노드 사용법<a class="headerlink" href="#intel-caffe" title="Permanent link">&para;</a></h2>
+<p>Caffe의 다중노드 병렬화는 Horovod에서 공식적으로 지원하지 않으며 Intel에서 KNL에 최적화하여 개발한 Intel Caffe를 활용하여 병렬처리가 가능합니다. Intel Caffe의 경우 병렬처리를 위한 작업들이 모두 코드 개발과정에서 적용되어 기존 Caffe에서 개발된 deploy.prototxt, solver.prototxt, train_val.prototxt들을 그대로 사용할 수 있습니다.</p>
+<p>※ Intel Caffe 활용을 위한 자세한 사용법은 Intel Caffe 공식 가이드 참조\
+(<a href="https://github.com/intel/caffe/wiki/Multinode-guide">https://github.com/intel/caffe/wiki/Multinode-guide</a>)</p>
+<p>딥러닝 개발자에 의해 수정된 Caffe의 코드에 대하여 병렬처리를 수행할 경우 Intel Caffe 소스코드에 해당 부분을 업데이트하여 컴파일 후 실행하여야 합니다.</p>
+<ul>
+<li>Intel Caffe 병렬처리 수행 방법 (작업스크립트 예제)</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/sh</span>
+<span class="c1">#PBS -N test</span>
+<span class="c1">#PBS -V</span>
+<span class="c1">#PBS -l select=4:ncpus=68:mpiprocs=1:ompthreads=68</span>
+<span class="c1">#PBS -q normal</span>
+<span class="c1">#PBS -l walltime=04:00:00</span>
+<span class="c1">#PBS -A caffe</span>
+
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$PBS_O_WORKDIR</span>
+
+module<span class="w"> </span>purge
+module<span class="w"> </span>load<span class="w"> </span>conda/intel_caffe_1.1.5
+<span class="nb">source</span><span class="w"> </span>/apps/applications/miniconda3/envs/intel_caffe/mlsl_2018.3.008/intel64/bin/mlslvars.sh
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">KMP_AFFINITY</span><span class="o">=</span>verbose,granularity<span class="o">=</span>fine,compact<span class="o">=</span><span class="m">1</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">KMP_BLOCKTIME</span><span class="o">=</span><span class="m">1</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">KMP_SETTINGS</span><span class="o">=</span><span class="m">1</span>
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">60</span>
+mpirun<span class="w"> </span>-PSM2<span class="w"> </span>-prepend-rank<span class="w"> </span>caffe<span class="w"> </span>train<span class="w"> </span><span class="se">\</span>
+--solver<span class="w"> </span>./models/intel_optimized_models/multinode/alexnet_4nodes/solver.prototxt
+
+<span class="c1"># 혹은</span>
+
+./scripts/run_intelcaffe.sh<span class="w"> </span>--hostfile<span class="w"> </span><span class="nv">$PBS_NODEFILE</span><span class="w"> </span><span class="se">\</span>
+--caffe_bin<span class="w"> </span>/apps/applications/miniconda3/envs/intel_caffe/bin/caffe<span class="w"> </span><span class="se">\</span>
+--solver<span class="w"> </span>models/intel_optimized_models/multinode/alexnet_4nodes/solver.prototxt<span class="w"> </span><span class="se">\</span>
+--network<span class="w"> </span>opa<span class="w"> </span>--ppn<span class="w"> </span><span class="m">1</span><span class="w"> </span>--num_omp_threads<span class="w"> </span><span class="m">60</span>
+
+<span class="nb">exit</span><span class="w"> </span><span class="m">0</span>
+</code></pre></div>
+
+<p>※ Network 옵션: Intel Onmi-Path Architecture (OPA)로 설정</p>
+<p>※ PPN: Process per node의 약자로 노드당 작업 수를 뜻합니다. (기본값: 1)</p>
+<p>※ Script를 이용하지 않고도 MPI 실행을 통해 기존 Caffe 수행 방법과 동일하게 수행 가능합니다.</p>
+<p _="%" endhint="endhint">{% hint style="info" %}
+2022년 9월 22일에 마지막으로 업데이트 되었습니다.</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.path"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

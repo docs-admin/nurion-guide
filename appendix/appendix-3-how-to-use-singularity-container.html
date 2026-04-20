@@ -1,0 +1,1968 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs-admin.github.io/nurion-guide/appendix/appendix-3-how-to-use-singularity-container.html">
+      
+      
+        <link rel="prev" href="appendix-2-how-to-use-conda.html">
+      
+      
+        <link rel="next" href="appendix-4-how-to-use-lustre-striping.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Singularity 컨테이너 - 누리온 지침처</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:300,300i,400,400i,700,700i%7CNanum+Gothic+Coding:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans KR";--md-code-font:"Nanum Gothic Coding"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-BFN3CHFMDF"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-BFN3CHFMDF",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-BFN3CHFMDF",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  
+  <style>
+    /* 메뉴가 들어갈 컨테이너 스타일 */
+    .custom-header-nav {
+      display: flex;
+      gap: 1.5rem;
+      margin-left: 1rem;
+      margin-right: 2rem;
+      align-items: center;
+    }
+    /* 개별 링크 스타일 */
+    .custom-nav-link {
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: var(--md-header-fg-color);
+      text-decoration: none;      
+      transition: opacity 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .custom-nav-link:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    /* 화면이 좁아지면 메뉴 숨기기 (모바일 대응) */
+    @media screen and (max-width: 60em) {
+      .custom-header-nav { display: none; }
+    }
+    /* 요약 페이지 전용 카드 스타일 */
+    .summary-container-external ul {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+      list-style: none;
+      padding: 0;
+    }
+
+     .summary-container-external ul li a {
+      display: block;
+      padding: 8px 0px 8px 30px;
+      border: 1px solid var(--md-typeset-table-color);
+      background-color: var(--md-code-bg-color);
+      border-radius: 8px;            
+      font-size: medium;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+    }
+
+    .summary-container ul {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+      list-style: none;
+      padding: 0;
+    }
+
+    .summary-container ul li a {
+      display: block;
+      padding: 8px 0px 8px 30px;
+      border: 1px solid var(--md-typeset-table-color);
+      border-radius: 8px;            
+      font-size: medium;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+    }
+
+    .summary-container ul li a:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      background-color: var(--md-code-bg-color);      
+      opacity: 0.7;
+      text-decoration: none;
+    }
+
+  </style>
+
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#singularity-00" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+  
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="누리온 지침처" class="md-header__button md-logo" aria-label="누리온 지침처" data-md-component="logo">
+      
+  <img src="../assets/images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            누리온 지침처
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Singularity 컨테이너
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // 1. 타이틀 영역을 찾습니다.
+      var titleElement = document.querySelector(".md-header__title");
+      
+      if (titleElement && !document.querySelector(".custom-header-nav")) {
+        // 2. 메뉴 컨테이너 생성
+        var navContainer = document.createElement("div");
+        navContainer.className = "custom-header-nav";
+        navContainer.innerHTML = `
+          <a href="https://site-a.com" class="custom-nav-link">초보 사용자 가이드</a>
+          <a href="https://site-a.com" class="custom-nav-link">누리온 지침서</a>
+          <a href="https://site-a.com" class="custom-nav-link">뉴론 지침서</a>
+          <a href="https://site-a.com" class="custom-nav-link">활용 정보 </a>
+          <a href="https://site-a.com" class="custom-nav-link">MyKSC 지침서 </a>
+        `;
+        
+        // 3. 타이틀 영역 바로 뒤에 삽입
+        titleElement.after(navContainer);
+      }
+    });
+  </script>
+
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="누리온 지침처" class="md-nav__button md-logo" aria-label="누리온 지침처" data-md-component="logo">
+      
+  <img src="../assets/images/logo.png" alt="logo">
+
+    </a>
+    누리온 지침처
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    System
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../system/nurion-system-overview-and-configuration.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    시스템 개요 및 구성
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../system/user-experience.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    사용자 환경
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../system/user-programming-environment.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    사용자 프로그래밍 환경
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../system/running-jobs-through-scheduler-pbs.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    스케줄러(PBS)를 통한 작업 실행
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../system/user-support.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    사용자 지원
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Software
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../software/ansys-fluent.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ANSYS FLUENT
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../software/ansys-cfx.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ANSYS CFX
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../software/abaqus-2023.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Abaqus (2023 버전 이전)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../software/abaqus-2024.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Abaqus (2024 버전 이후)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../software/nastran-userguide.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NASTRAN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../software/gaussian16-linda-userguide.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    가우시안16(Gaussian16) LINDA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../software/gaussian16-userguide.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    가우시안16(Gaussian16)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Appendix
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Appendix
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix-1-main-keywords-for-job-scripts.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    작업 스크립트 주요 키워드
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix-2-how-to-use-conda.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conda
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Singularity 컨테이너
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="appendix-3-how-to-use-singularity-container.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Singularity 컨테이너
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        가. 컨테이너 이미지 빌드하기
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="가. 컨테이너 이미지 빌드하기">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 싱귤레러티 모듈 적재 혹은 경로 설정
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 로컬 빌드
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 원격 빌드
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 컨테이너 이미지 가져오기/내보내기
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        다. 싱귤레러티 컨테이너에서 사용자 프로그램 실행
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="다. 싱귤레러티 컨테이너에서 사용자 프로그램 실행">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 싱귤레러티 모듈 적재 혹은 경로 설정
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 싱귤레러티 컨테이너에서 프로그램 실행 명령어
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-pbs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 스케줄러(PBS)를 통한 컨테이너 실행 방법
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 스케줄러(PBS)를 통한 컨테이너 실행 방법">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 작업 스크립트를 작성하여 배치 형태 작업 실행
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 작업 스크립트 파일 예시&#x20;
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3) 스케줄러가 할당한 계산 노드에서 인터랙티브 작업 실행
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        라. 참조
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="라. 참조">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-sylabs-cloud" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [참조 1] Sylabs Cloud 액세스 토큰 생성 및 누리온에 등록하기
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [참조 2] 웹 브라우저에서 리모트 빌더에 의한 싱규레러티 컨테이너 이미지 빌드하기
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix-4-how-to-use-lustre-striping.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lustre stripe
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix-5-tsmsf-user-guidelines.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    데이터 아카이빙
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix-6-method-for-using-the-mvapich2-performance-optimization-option.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MVAPICH2 성능 최적화 옵션
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix-7-method-for-using-deep-learning-framework-parallelization.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    딥러닝 프레임워크 병렬화
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix-8-list-of-common-libraries.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    공통라이브러리 목록
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix-9-how-to-use-vdi.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    데스크톱 가상화(VDI)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix-10-how-to-use-burst-buffer.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    버스트버퍼(Burst Buffer)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix-11-how-to-use-flat-node.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    플랫 노드(Flat node)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="dtn.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DTN(데이터전송노드)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        가. 컨테이너 이미지 빌드하기
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="가. 컨테이너 이미지 빌드하기">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 싱귤레러티 모듈 적재 혹은 경로 설정
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 로컬 빌드
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 원격 빌드
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 컨테이너 이미지 가져오기/내보내기
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        다. 싱귤레러티 컨테이너에서 사용자 프로그램 실행
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="다. 싱귤레러티 컨테이너에서 사용자 프로그램 실행">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 싱귤레러티 모듈 적재 혹은 경로 설정
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 싱귤레러티 컨테이너에서 프로그램 실행 명령어
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-pbs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 스케줄러(PBS)를 통한 컨테이너 실행 방법
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 스케줄러(PBS)를 통한 컨테이너 실행 방법">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 작업 스크립트를 작성하여 배치 형태 작업 실행
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 작업 스크립트 파일 예시&#x20;
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3) 스케줄러가 할당한 계산 노드에서 인터랙티브 작업 실행
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        라. 참조
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="라. 참조">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-sylabs-cloud" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [참조 1] Sylabs Cloud 액세스 토큰 생성 및 누리온에 등록하기
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [참조 2] 웹 브라우저에서 리모트 빌더에 의한 싱규레러티 컨테이너 이미지 빌드하기
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="singularity-00">Singularity 컨테이너 00<a class="headerlink" href="#singularity-00" title="Permanent link">&para;</a></h1>
+<p>싱귤레러티(Singularity)는 도커(Docker)와 같이 OS 가상화를 구현하기 위한 HPC 환경에 적합한 컨테이너 플랫폼입니다. 사용자 작업 환경에 적합한 리눅스 배포판, 컴파일러, 라이브러리 등을 포함하는 컨테이너 이미지를 생성하고 컨테이너를 구동하여 사용자 프로그램을 실행할 수 있습니다.</p>
+<p><img alt="0000" src="../assets/test.png" /></p>
+<p>Ob</p>
+<p><img alt="../assets/test.png" src="../../assets/test.png" width="358" /></p>
+<p><img alt="lv0" src="../assets/test.png" width="100px" /></p>
+<p>aaaa </p>
+<p><img alt="lv1|367" src="../assets/test.png" /></p>
+<p><img alt="../assets/test.png" src="../../assets/test.png" width="100" /></p>
+<p>aaaa </p>
+<p><img alt="lv2" src="../assets/vm-container_comparison.JPG" /></p>
+<p>aaaa </p>
+<p><img alt="lv3" src="../assets/image_%284%29.png" /></p>
+<p>aaaa </p>
+<p>&lt; 가상머신과 컨테이너 아키텍처 비교&gt;                              <Singularity 컨테이너 아키텍처></p>
+<p>※ 가상머신은 애플리케이션이 하이퍼바이저와 게스트 OS를 거쳐 올라가는 구조이나, 컨테이너는 물리적인 하드웨어에 더 가까우며 별도의 게스트 OS가 아닌 호스트 OS를 공유하기 때문에 오버헤드가 더 작습니다. 최근 클라우드 서비스에서 컨테이너의 활용이 증가하고 있습니다.</p>
+<h2 id="_1">가. 컨테이너 이미지 빌드하기<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h3 id="1">1. 싱귤레러티 모듈 적재 혹은 경로 설정<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>$ module load singularity/3.11.0
+or
+$ $HOME/.bash_profile
+export PATH=$PATH:/apps/applications/singularity/3.11.0/bin/
+</code></pre></div>
+
+<h3 id="2">2. 로컬 빌드<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<ul>
+<li>누리온 시스템의 로그인 노드에서 컨테이너 이미지를 로컬 빌드하기 위해서는, 먼저 <a href="https://www.ksc.re.kr/gsjw/gsjw/qna/edit">**KISTI 홈페이지 &gt; 기술지원 &gt; 상담신청**을</a> 통해 아래와 같은 내용으로 fakeroot 사용 신청을 해야 합니다.</li>
+<li>시스템명 : 누리온</li>
+<li>사용자 ID : a000abc</li>
+<li>요청사항 : 싱귤레러티 fakeroot 사용 설정</li>
+</ul>
+<p _="%" endhint="endhint">{% hint style="warning" %}
+<mark style="color:<span class="arithmatex"><span class="MathJax_Preview">danger;"&gt;**2026년 1월 8일**&lt;/mark&gt;&lt;mark style="color:</span><script type="math/tex">danger;">**2026년 1월 8일**</mark><mark style="color:</script></span>danger;"><strong>&#x20;</strong></mark><em><mark style="color:<span class="arithmatex"><span class="MathJax_Preview">danger;"&gt;**이후**&lt;/mark&gt;_ _&lt;mark style="color:</span><script type="math/tex">danger;">**이후**</mark>_ _<mark style="color:</script></span>success;"><strong>신규 사용자</strong></mark>는 계정 등록 시 자동 처리 되므로 <mark style="color:$success;"><strong>신청할 필요가 없습니다</strong></mark>.</em></p>
+<div class="codehilite"><pre><span></span><code>$ singularity [global options...] build [local options...] ＜IMAGE PATH＞ ＜BUILD SPEC＞
+
+[주요 global options]
+    -d : 디버깅 정보를 출력
+    -v : 추가 정보를 출력
+    --version : 싱귤레러티 버전 정보를 출력
+
+[관련 주요 local options]
+    --fakeroot : roor 권한 없이 일반사용자가 가짜 root 사용자로 이미지 빌드 
+    --remote : 외부 싱귤레러티 클라우드(Sylabs Cloud)를 통한 원격 빌드(root 권한이 필요 없습니다)
+    --sandbox : 샌드박스 형태의 쓰기 가능한 이미지 디렉터리 빌드
+
+＜IMAGE PATH＞
+   default : 읽기만 가능한 기본 이미지 파일(예시 : ubuntu1.sif)
+   sandbox : 읽기 및 쓰기 가능한 디렉터리 구조의 컨테이너(예시 : ubuntu4) 
+
+＜BUILD SPEC＞
+definition file : 컨테이너를 빌드하기 위해 recipe를 정의한  파일(예시 : ubuntu.def)
+local image : 싱귤레러티 이미지 파일 혹은 샌드박스 디렉터리(IMAGE PATH 참조)
+URI 
+library:// 컨테이너 라이브러리 (default https://cloud.sylabs.io/library) 
+docker:// 도커 레지스트리 (default 도커 허브)
+docker-archive:// 도커 아카이브 파일
+shub:// 싱규레러티 레지스트리 (default 싱귤레러티 허브)
+oras:// OCI 레지스트리
+oci-archive:// OCI 아카이브 파일
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>① Definition 파일로부터 ubuntu1.sif 이미지 빌드하기
+ $ singularity build --fakeroot ubuntu1.sif ubuntu.def* 
+
+② 싱규레러티 라이브러리로부터 ubuntu2.sif 이미지 빌드하기
+ $ singularity build --fakeroot ubuntu2.sif library://ubuntu:18.04 
+
+③ 도커 허브로부터 ubuntu3.sif 이미지 빌드하기
+ $ singularity build --fakeroot ubuntu3.sif docker://ubuntu:18.04 
+
+④ 도커 허브로부터 intel 아키텍처에 최적화된 pytorch 이미지 빌드하기 
+ $ singularity build --fakeroot pytorch1.sif docker://intel/intel-optimized-pytorch:2.3.0-pip-multinode
+
+⑤ 도커 tar 파일로부터 pytorch.sif 이미지 빌드하기
+ $ singularity build --fakeroot pytorch.sif docker-archive://pytorch.tar
+
+⑥ Definition 파일로부터 intel 아키텍처에 최적화된 pytorch 이미지 빌드하기
+ $ singularity build --fakeroot pytorch2.sif pytorch.def**
+
+⑦ fakeroot 사용하지 않고 Definition 파일로부터  ubuntu4.sif 이미지 빌드하기
+   # singularity 3.11.0 버전 이상에서 지원
+   # Definition 파일에서 기존 컨테이너 이미지 기반 패키지 설치에 적합하며,     
+     apt-get과 같은 시스템패키지 관리자를 사용하는 경우 일부 패키지(git 등) 설치 과정에서 에러가 
+     발생할 수 있습니다.
+ $ singularity build ubuntu4.sif ubuntu.def*
+
+* ) ubuntu.def 예시
+ bootstrap: docker
+ from: ubuntu:18.04
+ %post
+ apt-get update
+ apt-get install -y wget bash gcc gfortran g++ make file
+ %runscript
+ echo &quot;hello world from ubuntu container!&quot;
+
+** ) pytorch.def 예시
+ # 로컬 이미지 파일로부터 콘다를 사용하여 새로운 패키지 설치를 포함한 이미지 빌드
+ bootstrap: localimage
+ from: pytorch1.sif
+ %post
+ pip install scikit-image
+
+ # 도커 허브에서 사용하여 새로운 패키지 설치를 포함한 이미지 빌드
+ bootstrap: docker
+ from: intel/intel-optimized-pytorch:2.3.0-pip-multinode
+ %post
+ pip install scikit-image
+</code></pre></div>
+
+<h3 id="3"><strong>3. 원격 빌드</strong><a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code> $ singularity build --remote ubuntu4.sif ubuntu.def 
+ (Sylabs Cloud에서 제공하는 원격 빌드 서비스 이용하여 Definition 파일로부터ubuntu4.sif 이미지 빌드하기)
+</code></pre></div>
+
+<p>※ Sylabs Cloud(<a href="https://cloud.sylabs.io)에서">https://cloud.sylabs.io)에서</a> 제공하는 원격빌드 서비스를 이용하려면 액세스 토큰을 생성하여 뉴론 시스템에 등록해야 합니다. <a href="appendix-3-how-to-use-singularity-container.html#id-1-sylabs-cloud"><strong>[참조 1]</strong></a></p>
+<p>※ 또한, Sylabs Cloud에 웹 브라우저 접속을 통해서 싱귤레러티 컨테이너 이미지의 생성 및관리가 가능합니다.  <a href="appendix-3-how-to-use-singularity-container.html#id-2-2"><strong>[참조 2]</strong></a></p>
+<h3 id="4">4. 컨테이너 이미지 가져오기/내보내기<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>$ singularity pull tensorflow.sif library://dxtr/default/hpc-tensorflow:0.1 (Sylabs cloud 라이브러리에서 컨테이너 이미지 가져오기)
+$ singularity pull tensorflow.sif docker://tensorflow/tensorflow:latest (도커 허브에서 이미지를 가져와서 싱귤레러티 이미지로 변환)
+$ singularity push -U tensorflow.sif library://ID/default/tensorflow.sif (Sylabs Cloud 라이브러리에 싱귤레러티 이미지 내보내기(업로드))
+</code></pre></div>
+
+<p>※ Sylabs Cloud(<a href="https://cloud.sylabs.io)에">https://cloud.sylabs.io)에</a> 이미지를 내보내기(업로드) 위해서는 액세스 토큰을 생성하여 누리온에 등록해야 합니다. <a href="appendix-3-how-to-use-singularity-container.html#id-1-sylabs-cloud"><strong>[참조 1]</strong></a></p>
+<h2 id="_2">다. 싱귤레러티 컨테이너에서 사용자 프로그램 실행<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="1_1"><strong>1. 싱귤레러티 모듈 적재 혹은 경로 설정</strong><a class="headerlink" href="#1_1" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>$ module load singularity/3.11.0
+or
+$ $HOME/.bash_profile
+export PATH=$PATH:/apps/applications/singularity/3.11.0/bin/
+</code></pre></div>
+
+<h3 id="2_1"><strong>2. 싱귤레러티 컨테이너에서 프로그램 실행 명령어</strong><a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>$ singularity [global options...] shell [shell options...] ＜container＞
+$ singularity [global options...] exec [exec options...] ＜container＞ ＜command＞
+$ singularity [global options...] run [run options...] ＜container＞
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>① 싱귤레러티 컨테이너에서 쉘 실행 후 사용자 프로그램 실행 
+$ singularity shell pytorch1.sif
+Singularity&gt; python test.py
+
+② 싱귤레러티 컨테이너에서 사용자 프로그램 실행
+$ singularity exec pytorch1.sif python test.py 
+$ singularity exec docker://intel/intel-optimized-pytorch:2.3.0-pip-multinode python test.py
+$ singularity exec library://dxtr/default/hpc-tensorflow:0.1 python test.py
+
+③ 싱귤레러티 컨테이너에서 runscript(이미지 빌드 시 생성)가 존재하면 이 스크립트를 실행하고,    
+   runscript가 존재하지 않고 컨테이너 뒤에 사용자 명령어를 입력하면 해당 명령어가 실행됩니다.
+$ singularity run ubuntu1.sif 
+hello world from ubuntu container!
+
+$ singularity run pytorch1.sif python test.py 
+</code></pre></div>
+
+<h3 id="3-pbs"><strong>3. 스케줄러(PBS)를 통한 컨테이너 실행 방법</strong><a class="headerlink" href="#3-pbs" title="Permanent link">&para;</a></h3>
+<h4 id="1_2"><strong>1) 작업 스크립트를 작성하여 배치 형태 작업 실행</strong><a class="headerlink" href="#1_2" title="Permanent link">&para;</a></h4>
+<ul>
+<li>실행 명령어 : qsub＜작업 스크립트 파일＞</li>
+</ul>
+<div class="codehilite"><pre><span></span><code>[id@login01]$ qsub job_script.sh
+14954055.pbs
+</code></pre></div>
+
+<p>※ 자세한 스케줄러(PBS) 사용 방법은 "<a href="../undefined/running-jobs-through-scheduler-pbs.md"><strong>누리온 지침서-스케줄러(PBS)를 통한 작업실행</strong></a>" 참고 바랍니다.</p>
+<h4 id="2_2"><strong>2) 작업 스크립트 파일 예시</strong>&#x20;<a class="headerlink" href="#2_2" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Serial 작업</strong>  &#x20;</li>
+</ul>
+<p>&#x20;      * 실행명령어 : singularity run &lt;컨테이너&gt; [사용자 프로그램 실행 명령어]</p>
+<p>{% code overflow="wrap" %}</p>
+<div class="codehilite"><pre><span></span><code>#!/bin/sh
+#PBS -N openfoam
+#PBS -q normal
+#PBS -A openfoam
+#PBS -V
+#PBS -j oe
+#PBS -W sandbox=PRIVATE
+#PBS -m e
+#PBS -M wjnadia@kisti.re.kr
+#PBS -r y
+#PBS -l select=1:ncpus=1:mpiprocs=1:ompthreads=1
+#PBS -l walltime=00:30:00
+
+cd $PBS_O_WORKDIR
+module load singularity/3.11.0 
+cd cavity
+singularity run openfoam-default:2312.sif icoFoam
+</code></pre></div>
+
+<p>{% endcode %}</p>
+<ul>
+<li><strong>병렬 작업(OpenMPI)</strong></li>
+</ul>
+<p>&#x20;     * 실행 명령어 : mpirun singularity run  &lt;컨테이너&gt; [사용자 프로그램 실행 명령어]</p>
+<p>{% code overflow="wrap" %}</p>
+<div class="codehilite"><pre><span></span><code>#!/bin/sh
+#PBS -N openfoam
+#PBS -q normal
+#PBS -A openfoam
+#PBS -V
+#PBS -j oe
+#PBS -W sandbox=PRIVATE
+#PBS -m e
+#PBS -M wjnadia@kisti.re.kr
+#PBS -r y
+#PBS -l select=2:ncpus=64:mpiprocs=64:ompthreads=1
+#PBS -l walltime=00:30:00
+
+cd $PBS_O_WORKDIR
+module load singularity/3.11.0 gcc/8.3.0 openmpi/3.1.0
+cd cavity
+mpirun singularity run openfoam-default:2312.sif icoFoam
+</code></pre></div>
+
+<p>{% endcode %}</p>
+<p>※ 2노드 점유, 노드 당 64 타스크(총 128개 MPI 프로세스) 사용 예제</p>
+<h4 id="3_1"><strong>3) 스케줄러가 할당한 계산 노드에서 인터랙티브 작업 실행</strong><a class="headerlink" href="#3_1" title="Permanent link">&para;</a></h4>
+<ul>
+<li>&#x20;병렬프로그램(OpenMPI) 실행 예시</li>
+</ul>
+<p>{% code overflow="wrap" %}</p>
+<div class="codehilite"><pre><span></span><code>[id@login01]$ qsub -I -l select=2:ncpus=64:mpiprocs=64:ompthreads=1 -l walltime=00:30:00 -q normal  -A openfoam
+qsub: waiting for job 14954204.pbs to start
+qsub: job 14954204.pbs ready
+
+[id@node1000]$ 
+[id@node1000]$ module load singularity/3.11.0 gcc/8.3.0 openmpi/3.1.0
+[id@node1000]$ cd cavity
+[id@node1000]$ mpirun singularity run openfoam-default:2312.sif icoFoam 
+</code></pre></div>
+
+<p>{% endcode %}</p>
+<ul>
+<li>&#x20;텐서플로우 프로그램 실행 예시</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>qsub<span class="w"> </span>-I<span class="w"> </span>-V<span class="w"> </span>-l<span class="w"> </span><span class="k">select</span><span class="o">=</span><span class="m">1</span>:ncpus<span class="o">=</span><span class="m">68</span>:ompthreads<span class="o">=</span><span class="m">68</span><span class="w"> </span><span class="se">\</span>
+-l<span class="w"> </span><span class="nv">walltime</span><span class="o">=</span><span class="m">12</span>:00:00<span class="w"> </span>-q<span class="w"> </span>normal<span class="w"> </span>-A<span class="w"> </span>tf
+
+<span class="gp">$ </span><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">68</span><span class="p">;</span><span class="w"> </span>singularity<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>tensorflow-1.12.0-py3.simg<span class="w"> </span>python<span class="w"> </span>convolutional.py
+</code></pre></div>
+
+<p>※ 예제 싱귤레러티 이미지 파일 위치: /apps/applications/tensorflow/1.12.0/tensorflow-1.12.0-py3.simg</p>
+<p>※ 예제 convolutional.py 위치: /apps/applications/tensorflow/1.12.0/examples/convolutional.py</p>
+<h2 id="_3"><a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h2 id="_4">라. 참조<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="1-sylabs-cloud">[참조 1] Sylabs Cloud 액세스 토큰 생성 및 누리온에 등록하기<a class="headerlink" href="#1-sylabs-cloud" title="Permanent link">&para;</a></h3>
+<p><img alt="" src="../assets/Sylabs%20Cloud%20%EA%B3%84%EC%A0%95%20%EB%93%B1%EB%A1%9D%20%EB%B0%8F%20%EB%A1%9C%EA%B7%B8%EC%9D%B8%20%ED%95%98%EA%B8%B0.png" /></p>
+<p><img alt="" src="../assets/%EC%83%88%EB%A1%9C%EC%9A%B4%20%ED%86%A0%ED%81%B0%20%EC%83%9D%EC%84%B1%ED%95%98%EA%B8%B0.png" /></p>
+<p><img alt="" src="../assets/%ED%81%B4%EB%A6%BD%EB%B3%B4%EB%93%9C%EB%A1%9C%20%ED%86%A0%ED%81%B0%20%EB%B3%B5%EC%82%AC%ED%95%98%EA%B8%B0.png" /></p>
+<p><img alt="" src="../assets/%ED%86%A0%ED%81%B0%20%EC%9E%85%EB%A0%A5%ED%95%98%EA%B8%B0.png" /></p>
+<h3 id="2_3">[참조 2] 웹 브라우저에서 리모트 빌더에 의한 싱규레러티 컨테이너 이미지 빌드하기<a class="headerlink" href="#2_3" title="Permanent link">&para;</a></h3>
+<p><img alt="" src="../assets/%EC%9B%B9%20%EB%B8%8C%EB%9D%BC%EC%9A%B0%EC%A0%80%EC%97%90%EC%84%9C%20%EC%BB%A8%ED%85%8C%EC%9D%B4%EB%84%88%20%EC%9D%B4%EB%AF%B8%EC%A7%80%20%EB%B9%8C%EB%93%9C%ED%95%98%EA%B8%B0.png" /></p>
+<p><img alt="" src="../../assets/빌드한 컨테이너 이미지 목록 보기.png" /></p>
+<p>※ 누리온에서 singularity 명령어로 리모트 빌드한 이미지 목록도 포함됩니다.</p>
+<p _="%" endhint="endhint">{% hint style="info" %}
+2023년 3월 2일에 마지막으로 업데이트 되었습니다.</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.path"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

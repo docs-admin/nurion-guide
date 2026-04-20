@@ -1,0 +1,1888 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Abaqus 지침서">
+      
+      
+      
+        <link rel="canonical" href="https://docs-admin.github.io/nurion-guide/software/abaqus-2023.html">
+      
+      
+        <link rel="prev" href="ansys-cfx.html">
+      
+      
+        <link rel="next" href="abaqus-2024.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Abaqus (2023 버전 이전) - 누리온 지침처</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:300,300i,400,400i,700,700i%7CNanum+Gothic+Coding:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans KR";--md-code-font:"Nanum Gothic Coding"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-BFN3CHFMDF"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-BFN3CHFMDF",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-BFN3CHFMDF",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  
+  <style>
+    /* 메뉴가 들어갈 컨테이너 스타일 */
+    .custom-header-nav {
+      display: flex;
+      gap: 1.5rem;
+      margin-left: 1rem;
+      margin-right: 2rem;
+      align-items: center;
+    }
+    /* 개별 링크 스타일 */
+    .custom-nav-link {
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: var(--md-header-fg-color);
+      text-decoration: none;      
+      transition: opacity 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .custom-nav-link:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    /* 화면이 좁아지면 메뉴 숨기기 (모바일 대응) */
+    @media screen and (max-width: 60em) {
+      .custom-header-nav { display: none; }
+    }
+    /* 요약 페이지 전용 카드 스타일 */
+    .summary-container-external ul {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+      list-style: none;
+      padding: 0;
+    }
+
+     .summary-container-external ul li a {
+      display: block;
+      padding: 8px 0px 8px 30px;
+      border: 1px solid var(--md-typeset-table-color);
+      background-color: var(--md-code-bg-color);
+      border-radius: 8px;            
+      font-size: medium;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+    }
+
+    .summary-container ul {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+      list-style: none;
+      padding: 0;
+    }
+
+    .summary-container ul li a {
+      display: block;
+      padding: 8px 0px 8px 30px;
+      border: 1px solid var(--md-typeset-table-color);
+      border-radius: 8px;            
+      font-size: medium;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+    }
+
+    .summary-container ul li a:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      background-color: var(--md-code-bg-color);      
+      opacity: 0.7;
+      text-decoration: none;
+    }
+
+  </style>
+
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#abaqus-2023" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+  
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="누리온 지침처" class="md-header__button md-logo" aria-label="누리온 지침처" data-md-component="logo">
+      
+  <img src="../assets/images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            누리온 지침처
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Abaqus (2023 버전 이전)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // 1. 타이틀 영역을 찾습니다.
+      var titleElement = document.querySelector(".md-header__title");
+      
+      if (titleElement && !document.querySelector(".custom-header-nav")) {
+        // 2. 메뉴 컨테이너 생성
+        var navContainer = document.createElement("div");
+        navContainer.className = "custom-header-nav";
+        navContainer.innerHTML = `
+          <a href="https://site-a.com" class="custom-nav-link">초보 사용자 가이드</a>
+          <a href="https://site-a.com" class="custom-nav-link">누리온 지침서</a>
+          <a href="https://site-a.com" class="custom-nav-link">뉴론 지침서</a>
+          <a href="https://site-a.com" class="custom-nav-link">활용 정보 </a>
+          <a href="https://site-a.com" class="custom-nav-link">MyKSC 지침서 </a>
+        `;
+        
+        // 3. 타이틀 영역 바로 뒤에 삽입
+        titleElement.after(navContainer);
+      }
+    });
+  </script>
+
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="누리온 지침처" class="md-nav__button md-logo" aria-label="누리온 지침처" data-md-component="logo">
+      
+  <img src="../assets/images/logo.png" alt="logo">
+
+    </a>
+    누리온 지침처
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    System
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../system/nurion-system-overview-and-configuration.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    시스템 개요 및 구성
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../system/user-experience.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    사용자 환경
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../system/user-programming-environment.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    사용자 프로그래밍 환경
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../system/running-jobs-through-scheduler-pbs.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    스케줄러(PBS)를 통한 작업 실행
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../system/user-support.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    사용자 지원
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Software
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ansys-fluent.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ANSYS FLUENT
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ansys-cfx.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ANSYS CFX
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Abaqus (2023 버전 이전)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="abaqus-2023.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Abaqus (2023 버전 이전)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        가. 사용 신청 시 유의사항
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        나. 사용 정책
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        다. 소프트웨어 설치 정보
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="다. 소프트웨어 설치 정보">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 설치 버전
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 설치 위치
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 실행 파일 경로
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-env" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. env 파일 경로&#x20;
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        라. 소프트웨어 실행 방법
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="라. 소프트웨어 실행 방법">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 실행 방법
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 스케쥴러 작업 스크립트 파일 작성
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 작업 제출 방법
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 작업 상태 확인
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 제출된 작업을 강제로 종료
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-pbs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. PBS 상에서 사용 가능한 자원 확인
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#abaqus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        라. abaqus 수행 오류 관련
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="abaqus-2024.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Abaqus (2024 버전 이후)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="nastran-userguide.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NASTRAN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="gaussian16-linda-userguide.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    가우시안16(Gaussian16) LINDA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="gaussian16-userguide.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    가우시안16(Gaussian16)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Appendix
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Appendix
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix/appendix-1-main-keywords-for-job-scripts.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    작업 스크립트 주요 키워드
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix/appendix-2-how-to-use-conda.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conda
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix/appendix-3-how-to-use-singularity-container.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Singularity 컨테이너
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix/appendix-4-how-to-use-lustre-striping.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lustre stripe
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix/appendix-5-tsmsf-user-guidelines.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    데이터 아카이빙
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix/appendix-6-method-for-using-the-mvapich2-performance-optimization-option.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MVAPICH2 성능 최적화 옵션
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix/appendix-7-method-for-using-deep-learning-framework-parallelization.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    딥러닝 프레임워크 병렬화
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix/appendix-8-list-of-common-libraries.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    공통라이브러리 목록
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix/appendix-9-how-to-use-vdi.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    데스크톱 가상화(VDI)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix/appendix-10-how-to-use-burst-buffer.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    버스트버퍼(Burst Buffer)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix/appendix-11-how-to-use-flat-node.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    플랫 노드(Flat node)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix/dtn.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DTN(데이터전송노드)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        가. 사용 신청 시 유의사항
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        나. 사용 정책
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        다. 소프트웨어 설치 정보
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="다. 소프트웨어 설치 정보">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 설치 버전
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 설치 위치
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 실행 파일 경로
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-env" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. env 파일 경로&#x20;
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        라. 소프트웨어 실행 방법
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="라. 소프트웨어 실행 방법">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 실행 방법
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 스케쥴러 작업 스크립트 파일 작성
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 작업 제출 방법
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 작업 상태 확인
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 제출된 작업을 강제로 종료
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-pbs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. PBS 상에서 사용 가능한 자원 확인
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#abaqus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        라. abaqus 수행 오류 관련
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="abaqus-2023">Abaqus (2023 버전 이전)<a class="headerlink" href="#abaqus-2023" title="Permanent link">&para;</a></h1>
+<p>본 문서는 누리온 시스템에서 ABAQUS 소프트웨어 사용을 위한 기초적인 정보를 제공하고 있습니다.</p>
+<p>따라서, ABAQUS 소프트웨어 사용법 및 누리온/리눅스 사용법 등은 포함되어 있지 않습니다.</p>
+<p>누리온/리눅스 사용법에 대한 정보는 KISTI 홈페이지 (<a href="https://www.ksc.re.kr)의">https://www.ksc.re.kr)의</a> 기술지원 &gt; 지침서 내 누리온 사용자 지침서 등을 참고 바랍니다.</p>
+<h2 id="_1"><strong>가. 사용 신청 시 유의사항</strong><a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ul>
+<li>사용 가능 사용자 그룹 : 대학교/산업체(중소기업)/출연연구소 사용자</li>
+<li>신규사용자의 경우 KSC 홈페이지 사용 신청서 작성 시 반드시 '사용할 애플리케이션'에 Abaqus를 명시하여야 합니다.</li>
+<li>기존사용자의 경우 <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#99;&#99;&#111;&#117;&#110;&#116;&#64;&#107;&#115;&#99;&#46;&#114;&#101;">&#97;&#99;&#99;&#111;&#117;&#110;&#116;&#64;&#107;&#115;&#99;&#46;&#114;&#101;</a>.kr로 계정, 소속, 아이디를 명기하고 신청 바랍니다.</li>
+<li>산업체(중소기업) 소속의 경우 <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#99;&#99;&#111;&#117;&#110;&#116;&#64;&#107;&#115;&#99;&#46;&#114;&#101;">&#97;&#99;&#99;&#111;&#117;&#110;&#116;&#64;&#107;&#115;&#99;&#46;&#114;&#101;</a>.kr로 관련 서류(중소기업 확인서, 벤처기업 확인서 등)를 제출해야 합니다.</li>
+<li>사용 중 소속이 변경되어 해당 소속에 해당되지 않는 경우 반드시 <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#99;&#99;&#111;&#117;&#110;&#116;&#64;&#107;&#115;&#99;&#46;&#114;&#101;&#46;&#107;&#114;">&#97;&#99;&#99;&#111;&#117;&#110;&#116;&#64;&#107;&#115;&#99;&#46;&#114;&#101;&#46;&#107;&#114;</a> 로 알려 주십시오.</li>
+</ul>
+<h2 id="_2"><strong>나. 사용 정책</strong><a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<ul>
+<li>사용자별 **최대 40개 CPU 코어 수행 가능**합니다.</li>
+<li><mark style="color:red;">한정된 라이선스를 슈퍼컴 사용자들이 함께 사용하므로, 사용정책 기준을 초과하여 사용할 경우 해당 작업은 관리자가 강제 종료 합니다.</mark></li>
+<li><mark style="color:red;">부득이하게 많은 라이선스가 필요할 경우, KISTI 홈페이지 (<a href="https://www.ksc.re.kr)를">https://www.ksc.re.kr)를</a> 통해 사전에 관리자와 협의해야 합니다.</mark></li>
+<li>작업 제출 전 "lic_check" 명령 에서 메뉴 선택을 통해 라이선스 상태를 확인 한 다음 작업을 제출하시기 바랍니다.</li>
+<li>로그인 노드(login01~04)의 과부하 방지를 위해 로그인 노드에서의 pre/post 작업은 허가하지 않습니다. 다만, VDI를 통해서 일부  pre/post 작업이 가능합니다. (참고 : 누리온 VDI 지침서 - <a href="https://docs-ksc.gitbook.io/nurion-user-guide/undefined-2/appendix-9-how-to-use-vdi">https://docs-ksc.gitbook.io/nurion-user-guide/undefined-2/appendix-9-how-to-use-vdi</a>)</li>
+<li><mark style="color:red;">작업제출 스크립트에 "#PBS -A abaqus" 옵션을 사용해야 합니다.</mark></li>
+</ul>
+<h2 id="_3"><strong>다. 소프트웨어 설치 정보</strong><a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="1"><strong>1. 설치 버전</strong><a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>6.14-6, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023</li>
+</ul>
+<hr />
+<h3 id="2"><strong>2. 설치 위치</strong><a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<ul>
+<li>/apps/commercial/abaqus</li>
+</ul>
+<hr />
+<h3 id="3"><strong>3. 실행 파일 경로</strong><a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<ul>
+<li>/apps/commercial/abaqus/Commands 디렉터리 내 위치</li>
+<li>v6146 : /apps/commercial/abaqus/Commands/abq6146</li>
+<li>v2016 : /apps/commercial/abaqus/Commands/abq2016hf19</li>
+<li>v2017 : /apps/commercial/abaqus/Commands/abq2017hf13&#x20;</li>
+<li>v2018 : /apps/commercial/abaqus/Commands/abq2018hf5&#x20;</li>
+<li>v2019 : /apps/commercial/abaqus/Commands/abq2019hf5&#x20;</li>
+<li>v2020 : /apps/commercial/abaqus/Commands/abq2020hf4&#x20;</li>
+<li>v2021 : /apps/commercial/abaqus/Commands/abq2021&#x20;</li>
+<li>v2022 : /apps/commercial/abaqus/Commands/abq2022&#x20;</li>
+<li>v2023 : /apps/commercial/abaqus/Commands/abq2023hf7</li>
+</ul>
+<hr />
+<h3 id="4-env">4. env 파일 경로&#x20;<a class="headerlink" href="#4-env" title="Permanent link">&para;</a></h3>
+<ul>
+<li>/apps/commercial/abaqus 버전별 디렉터리 내 위치&#x20;</li>
+<li>v6.14-6 : \
+    /apps/commercial/abaqus/6146/6.14-6/SMA/site/abaqus_v6.env&#x20;</li>
+<li>v2016 : \
+    /apps/commercial/abaqus/2016/SimulationServices/V6R2016x/linux_a64/SMA/site/abaqus_v6.env&#x20;</li>
+<li>v2017 : \
+    /apps/commercial/abaqus/2017/SimulationServices/V6R2017x/linux_a64/SMA/site/abaqus_v6.env&#x20;</li>
+<li>v2018 : \
+    /apps/commercial/abaqus/2018/SimulationServices/V6R2018x/linux_a64/SMA/site/abaqus_v6.env&#x20;</li>
+<li>v2019 : \
+    /apps/commercial/abaqus/2019/SimulationServices/V6R2019x/linux_a64/SMA/site/abaqus_v6.env&#x20;</li>
+<li>v2020 : \
+    /apps/commercial/abaqus/2020/EstProducts/2020/linux_a64/SMA/site/abaqus_v6.env&#x20;</li>
+<li>v2021 : \
+    /apps/commercial/abaqus/2021/EstProducts/2021/linux_a64/SMA/site/abaqus_v6.env&#x20;</li>
+<li>v2022 :\
+    /apps/commercial/abaqus/2022/EstProducts/2022/linux_a64/SMA/site/abaqus_v6.env&#x20;</li>
+<li>v2023 :\
+    /apps/commercial/abaqus/2023/EstProducts/2023/linux_a64/SMA/site/abaqus_v6.env</li>
+</ul>
+<h2 id="_4"><strong>라. 소프트웨어 실행 방법</strong><a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="1_1"><strong>1. 실행 방법</strong><a class="headerlink" href="#1_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>다음과 같이 batch mode로 job을 실행하기 위한 명령어 입력합니다.</li>
+</ul>
+<table data-header-hidden><thead><tr><th width="188"></th><th></th></tr></thead><tbody><tr><td><strong>형식</strong></td><td>[<strong>command</strong>] [<strong>option</strong>]</td></tr><tr><td>Commands</td><td><p>abq6146 (6-14.6버전)</p><p>abq2016hf19 (2016 버전)</p><p>abq2017hf13 (2017 버전)</p><p>abq2018hf5 (2018 버전)</p><p>abq2019hf5 (2019 버전)<br>abq2020hf4 (2020 버전)<br>abq2021 (2021 버전)<br>abq2022 (2022 버전)<br>abq2023hf7 (2023버전)</p></td></tr><tr><td>예제(6.14-6 버전)</td><td><p>abq6146 job=<mark style="color:blue;"><strong>job_name</strong></mark> [cpus=<mark style="color:blue;"><strong>ncpus</strong></mark>] [input=<mark style="color:blue;"><strong>inp_file</strong></mark>] [interactive]</p><p>abq6146 job=<mark style="color:blue;"><strong>job_name</strong></mark> oldjob=<mark style="color:blue;"><strong>old_job_name</strong></mark></p><p>abq6146 help</p><p>abq6146 information=environment</p><p>abq6146 viewer [res=<mark style="color:blue;"><strong>res_name</strong></mark>]</p></td></tr></tbody></table>
+
+<ul>
+<li>파란 글씨 부분을 작업명, 사용코어 수, 입력 파일 명으로 수정 후 사용하시기 바랍니다.</li>
+<li>Interactive 방식의 실행은 CPU time이 20분으로 제한되어 있습니다.</li>
+<li>장시간의 계산 작업은 PBS라는 스케줄러를 이용하여 작업을 제출해야 합니다.</li>
+<li>작업 제출 전 "lic_check" 명령을 실행하여 라이선스 상태를 확인 후 작업을 제출하시기 바랍니다.</li>
+</ul>
+<hr />
+<h3 id="2_1"><strong>2. 스케쥴러 작업 스크립트 파일 작성</strong><a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>누리온 시스템에서는 로그인 노드에서 PBS라는 스케쥴러를 사용하여 작업을 제출해야 합니다.</li>
+<li>누리온 시스템에서 PBS 를 사용하는 예제 파일들이 아래의 경로에 존재하므로 사용자 작업용 파일을 만들 때 이를 참고하시기 바랍니다.</li>
+<li>예제 파일 경로 - 6.14-6 버전</li>
+<li>/apps/commercial/test_samples/abaqus/abaqus_v6146.sh <strong>(단일노드에서 수행)</strong></li>
+<li>/apps/commercial/test_samples/abaqus/abaqus_v6146_multinode.sh <strong>(멀티 노드에서 수행)</strong></li>
+<li>예제 파일 경로 - 2023 버전</li>
+<li>/apps/commercial/test_samples/abaqus/abaqus_v2023.sh <strong>(단일노드에서 수행)</strong></li>
+<li>/apps/commercial/test_samples/abaqus/abaqus_v2023_multinode.sh <strong>(멀티 노드에서 수행)</strong></li>
+</ul>
+<p>※ 아래 예제는 누리온 시스템 에서의 ABAQUS 2023 버전에 대한 예제입니다. <strong>(단일노드에서 수행)</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/sh</span>
+<span class="c1">#PBS -V</span>
+<span class="c1">#PBS -N abaqus_test</span>
+<span class="c1">#PBS -q commercial</span>
+<span class="c1">#PBS -l select=1:ncpus=40:mpiprocs=40:ompthreads=1</span>
+<span class="c1">#PBS -l walltime=04:00:00</span>
+<span class="c1">#PBS -A abaqus</span>
+
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$PBS_O_WORKDIR</span>
+
+<span class="c1">###### Do not edit #####</span>
+<span class="nv">TOTAL_CPUS</span><span class="o">=</span><span class="k">$(</span>wc<span class="w"> </span>-l<span class="w"> </span><span class="nv">$PBS_NODEFILE</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $1}&#39;</span><span class="k">)</span>
+<span class="c1">#######################</span>
+
+cp<span class="w"> </span>/apps/commercial/abaqus/2023/EstProducts/2023/linux_a64/SMA/site/abaqus_v6.env<span class="w"> </span>.
+/apps/commercial/abaqus/Commands/abq2023hf7<span class="w"> </span><span class="nv">job</span><span class="o">=</span>c2<span class="w"> </span><span class="nv">cpus</span><span class="o">=</span><span class="si">${</span><span class="nv">TOTAL_CPUS</span><span class="si">}</span><span class="w"> </span>int
+</code></pre></div>
+
+<ul>
+<li>위에서 파란색으로 표기된 부분은 사용자가 적절히 수정해야 합니다.</li>
+<li><mark style="color:red;">2019년 3월 PM 이후 부터는 "#PBS -A abaqus" 옵션이 없는 경우 작업제출이 되지 않습니다.</mark></li>
+<li><strong>작업 제출은 스크래치 디렉토리에서만 가능</strong> 합니다.</li>
+<li>사용자별 스크래치 디렉토리는 /scratch/$USER입니다.</li>
+<li><mark style="color:red;">스크래치 디스크는 작업 종료 후 일정 시간(2023년 8월 현재 정책: 15일)이 지나면 삭제되기 때문에, 작업이 완료 된경우 빠른 시일 내에 백업하시길 권장합니다.</mark></li>
+<li>기타 PBS에 관련된 명령어 및 사용법은 누리온 사용자 지침서를 참조하시면 됩니다.</li>
+</ul>
+<p>※ 아래 예제는 누리온 시스템 에서의 ABAQUS 2023 버전에 대한 예제입니다. <strong>(멀티노드에서 수행)</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/sh</span>
+<span class="c1">#PBS -V</span>
+<span class="c1">#PBS -N abaqus_test</span>
+<span class="c1">#PBS -q commercial</span>
+<span class="c1">#PBS -l select=2:ncpus=20:mpiprocs=20:ompthreads=1</span>
+<span class="c1">#PBS -l walltime=04:00:00</span>
+<span class="c1">#PBS -A abaqus</span>
+
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$PBS_O_WORKDIR</span>
+
+<span class="c1">###### Do not edit #####</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">MPI_IC_ORDER</span><span class="o">=</span>TCP
+<span class="nv">TOTAL_CPUS</span><span class="o">=</span><span class="k">$(</span>wc<span class="w"> </span>-l<span class="w"> </span><span class="nv">$PBS_NODEFILE</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $1}&#39;</span><span class="k">)</span>
+<span class="nv">nodes</span><span class="o">=</span><span class="s2">&quot;[&quot;</span>
+<span class="k">for</span><span class="w"> </span>n<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>sort<span class="w"> </span>-u<span class="w"> </span><span class="nv">$PBS_NODEFILE</span><span class="k">)</span>
+<span class="k">do</span>
+<span class="nv">nodes</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">nodes</span><span class="si">}</span><span class="s2">[&#39;</span><span class="nv">$n</span><span class="s2">&#39;,</span><span class="k">$(</span>grep<span class="w"> </span>-c<span class="w"> </span><span class="nv">$n</span><span class="w"> </span><span class="nv">$PBS_NODEFILE</span><span class="k">)</span><span class="s2">],&quot;</span>
+<span class="k">done</span>
+<span class="nv">nodes</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="si">${</span><span class="nv">nodes</span><span class="si">}</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;s/,</span>$<span class="s2">/]/&quot;</span><span class="k">)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;abaquslm_license_file=\&quot;2501@vaccine02.ext\&quot;&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>abaqus_v6.env
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;mp_host_list=</span><span class="si">${</span><span class="nv">nodes</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>abaqus_v6.env
+<span class="c1">########################</span>
+
+/apps/commercial/abaqus/Commands/abq2023hf7<span class="w"> </span><span class="nv">job</span><span class="o">=</span>c2<span class="w"> </span><span class="nv">cpus</span><span class="o">=</span><span class="si">${</span><span class="nv">TOTAL_CPUS</span><span class="si">}</span><span class="w"> </span><span class="nv">mp_mode</span><span class="o">=</span>mpi<span class="w"> </span>int
+</code></pre></div>
+
+<ul>
+<li><mark style="color:red;">위에서 빨간색으로 표기된 부분은 수정하면 안됩니다.</mark></li>
+<li><mark style="color:red;">2019년 3월 PM 이후 부터는 "#PBS -A abaqus" 옵션이 없는 경우 작업제출이 되지 않습니다.</mark></li>
+<li>위에서 파란색으로 표기된 부분은 사용자가 적절히 수정해야 합니다.</li>
+<li><strong>작업 제출은 스크래치 디렉토리에서만 가능</strong> 합니다.</li>
+<li>사용자별 스크래치 디렉토리는 /scratch/$USER입니다.</li>
+<li><mark style="color:red;">스크래치 디스크는 작업 종료 후 일정 시간(2023년 8월 현재 정책: 15일)이 지나면 삭제되기 때문에, 작업이 완료 된경우 빠른 시일 내에 백업하시길 권장합니다.</mark></li>
+<li>기타 PBS에 관련된 명령어 및 사용법은 누리온 사용자 지침서를 참조하시면 됩니다.</li>
+</ul>
+<hr />
+<h3 id="3_1"><strong>3. 작업 제출 방법</strong><a class="headerlink" href="#3_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>예제 : 스크립트 파일 이름이 abaqus.sh 인 경우</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>qsub<span class="w"> </span>abaqus.sh
+</code></pre></div>
+
+<hr />
+<h3 id="4"><strong>4. 작업 상태 확인</strong><a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>qstat<span class="w"> </span><span class="o">(</span>또는<span class="w"> </span>qstat<span class="w"> </span>-u<span class="w"> </span><span class="nv">$USER</span><span class="o">)</span><span class="w"> </span>
+</code></pre></div>
+
+<hr />
+<h3 id="5"><strong>5. 제출된 작업을 강제로 종료</strong><a class="headerlink" href="#5" title="Permanent link">&para;</a></h3>
+<ul>
+<li>사용 방법 : qdel</li>
+<li>작업ID는 qstat 명령어 실행 시 제일 왼쪽에 표시 되는 정보입니다.(ex. 1771476.pbs)</li>
+<li>예제 : 작업ID 가 1771476.pbs 인 경우</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>qdel<span class="w">  </span><span class="m">1771476</span>.pbs
+</code></pre></div>
+
+<hr />
+<h3 id="6-pbs"><strong>6. PBS 상에서 사용 가능한 자원 확인</strong><a class="headerlink" href="#6-pbs" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>pbs_status
+</code></pre></div>
+
+<h2 id="abaqus"><strong>라. abaqus 수행 오류 관련</strong><a class="headerlink" href="#abaqus" title="Permanent link">&para;</a></h2>
+<ul>
+<li>6월 정기점검시 Lustre 파일시스템의 I/O 성능 향상을 위한 기능이 /scratch 파일시스템에 적용되었습니다.</li>
+<li>이로 인해 현재 abaqus 수행시 아래와 같은 **[관련 오류 메시지]**가 출력되면서 파일 접근에 대한 오류가 발생할 수 있습니다. (다만, 특정 작업의 경우 오류 메시지가 출력되지 않고 작업이 R 상태로 진행되지 않을 수 있습니다.)</li>
+<li>아래 오류 메시지와 유사한 파일 접근 오류가 발생하는 경우, 다음의 절차를 먼저 진행하시고 작업을 제출하시기 바랍니다.</li>
+</ul>
+<p><strong>[stripe count 설정 방법]</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>mkdir
+<span class="gp">$ </span>lfs<span class="w"> </span>setstripe<span class="w"> </span>-c<span class="w"> </span><span class="m">4</span>
+<span class="gp">$ </span>cp<span class="w"> </span>*.inp<span class="w"> </span><span class="c1"># .inp 파일은 abaqus의 input 파일을 지칭합니다.</span>
+<span class="gp">$ </span>cp<span class="w"> </span>*.sh<span class="w"> </span><span class="c1"># .sh 파일은 abaqus 작업제출 스크립트를 지칭합니다.</span>
+<span class="gp">$ </span><span class="nb">cd</span>
+<span class="gp">$ </span>qsub
+</code></pre></div>
+
+<ul>
+<li>* : 입력 데이터가 위치하고 있으며, 출력 데이터가 기록될 디렉토리</li>
+<li>* 하위 디렉토리를 생성하는 경우 동일한 작업을 수행하셔야 합니다.</li>
+</ul>
+<p><mark style="color:red;">※ restart 작업과 같이 기존 파일을 활용해야 하는 경우,</mark> <mark style="color:red;">(stripe count 설정을 수행한 디렉토리)로 cp 명령어를 이용하여</mark> <mark style="color:red;"><strong>기존 파일을 복사</strong></mark><mark style="color:red;">하여 작업을 수행해주시기 바랍니다.</mark> <mark style="color:red;">(mv 명령어 사용 시 기존의 속성을 유지하기 때문에 오류가 발생할 수 있습니다.)</mark></p>
+<p><strong>[관련 오류 메시지]</strong></p>
+<table>
+<thead>
+<tr>
+<th><p>(1) <strong>***ERROR: *** Error: Extend failed (utl_File: read)</strong></p><p>(2) <em><strong>NOTE: DUE TO AN INPUT ERROR THE ANALYSIS PRE-PROCESSOR HAS BEEN UNABLE TO INTERPRET SOME DATA. SUBSEQUENT ERRORS MAY BE CAUSED BY THIS OMISSION</strong></em></p><p><em><strong>(3) terminate called after throwing an instance of 'utl_FileExceptionExtend'</strong></em></p><p>ABAQUS/pre rank 0 received signal 6 (Aborted)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.path"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
