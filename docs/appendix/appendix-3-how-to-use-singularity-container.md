@@ -2,11 +2,22 @@
 
 싱귤레러티(Singularity)는 도커(Docker)와 같이 OS 가상화를 구현하기 위한 HPC 환경에 적합한 컨테이너 플랫폼입니다. 사용자 작업 환경에 적합한 리눅스 배포판, 컴파일러, 라이브러리 등을 포함하는 컨테이너 이미지를 생성하고 컨테이너를 구동하여 사용자 프로그램을 실행할 수 있습니다.
 
+![lv0](../assets/test.png){ width=100px }
+
+aaaa 
+
+
 ![lv1|367](../assets/test.png)
+
+aaaa 
 
 ![lv2](../assets/vm-container_comparison.JPG)
 
+aaaa 
+
 ![lv3](../assets/image_(4).png)
+
+aaaa 
 
  < 가상머신과 컨테이너 아키텍처 비교>                              <Singularity 컨테이너 아키텍처>
 
