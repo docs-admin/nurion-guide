@@ -4,12 +4,10 @@
 
 ![lv1](../assets/test.png){style="width:100px"}
 
-![lv2](../../assets/test.png){style="width:100px"}
 
+![lv2](../assets/vm-container_comparison.JPG)
 
-![[../assets/vm-container_comparison.JPG]]
-
-![[../assets/image (4).png]]
+![lv3](../assets/image_(4).png)
 
  < 가상머신과 컨테이너 아키텍처 비교>                              <Singularity 컨테이너 아키텍처>
 
