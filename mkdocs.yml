@@ -24,8 +24,8 @@ extra_css:
 plugins:
   - search
   - awesome-pages
-  - obsidian-support
-
+  - roamlinks
+  
 
 nav:
   # - Home: README.md
