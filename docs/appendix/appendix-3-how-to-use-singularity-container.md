@@ -2,11 +2,14 @@
 
 싱귤레러티(Singularity)는 도커(Docker)와 같이 OS 가상화를 구현하기 위한 HPC 환경에 적합한 컨테이너 플랫폼입니다. 사용자 작업 환경에 적합한 리눅스 배포판, 컴파일러, 라이브러리 등을 포함하는 컨테이너 이미지를 생성하고 컨테이너를 구동하여 사용자 프로그램을 실행할 수 있습니다.
 
+![[../assets/test.png]]
 
 
-<div align="left"><figure><img src="../../assets/vm-container_comparison.JPG" alt=""><figcaption></figcaption></figure> <figure><img src="../../assets/image (4).png" alt="" width="557"><figcaption></figcaption></figure></div>
+![[../assets/vm-container_comparison.JPG]]
 
-&#x20;                 < 가상머신과 컨테이너 아키텍처 비교>                              \<Singularity 컨테이너 아키텍처>
+![[../assets/image (4).png]]
+
+ < 가상머신과 컨테이너 아키텍처 비교>                              <Singularity 컨테이너 아키텍처>
 
 ※ 가상머신은 애플리케이션이 하이퍼바이저와 게스트 OS를 거쳐 올라가는 구조이나, 컨테이너는 물리적인 하드웨어에 더 가까우며 별도의 게스트 OS가 아닌 호스트 OS를 공유하기 때문에 오버헤드가 더 작습니다. 최근 클라우드 서비스에서 컨테이너의 활용이 증가하고 있습니다.
 
@@ -278,17 +281,18 @@ $ export OMP_NUM_THREADS=68; singularity exec tensorflow-1.12.0-py3.simg python 
 
 ### \[참조 1] Sylabs Cloud 액세스 토큰 생성 및 누리온에 등록하기
 
-![](<../../assets/Sylabs Cloud 계정 등록 및 로그인 하기.png>)
+![](<../assets/Sylabs Cloud 계정 등록 및 로그인 하기.png>)
 
-![](<../../assets/새로운 토큰 생성하기.png>)
+![](<../assets/새로운 토큰 생성하기.png>)
 
-![](<../../assets/클립보드로 토큰 복사하기.png>)
+![](<../assets/클립보드로 토큰 복사하기.png>)
 
-![](<../../assets/토큰 입력하기.png>)
+![](<../assets/토큰 입력하기.png>)
+
 
 ### \[참조 2] 웹 브라우저에서 리모트 빌더에 의한 싱규레러티 컨테이너 이미지 빌드하기
 
-![](<../../assets/웹 브라우저에서 컨테이너 이미지 빌드하기.png>)
+![](<../assets/웹 브라우저에서 컨테이너 이미지 빌드하기.png>)
 
 ![](<../../assets/빌드한 컨테이너 이미지 목록 보기.png>)
 
