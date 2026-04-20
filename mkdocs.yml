@@ -24,6 +24,8 @@ extra_css:
 plugins:
   - search
   - awesome-pages
+  - obsidian-support
+
 
 nav:
   # - Home: README.md
@@ -60,8 +62,7 @@ nav:
 markdown_extensions:
   - md_in_html
   - meta
-  - attr_list
-  - roamlinks
+  - attr_list  
   - footnotes
   - admonition
   - codehilite:
