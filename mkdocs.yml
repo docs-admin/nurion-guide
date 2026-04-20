@@ -1,6 +1,8 @@
 site_name: 누리온 지침처
 site_url: https://docs-admin.github.io/nurion-guide/
 
+use_directory_urls: false
+
 theme:
   name: material
   custom_dir: kisti-theme
